@@ -1,0 +1,6 @@
+fedora-kernel-*zip
+buildlog
+archlinux-linux/
+src/
+linux-g14*.tar.lz
+linux-g14*.tar.zst
