@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgbase=linux-g14
-pkgver=5.12.10.arch1
-pkgrel=3
+pkgver=5.12.11.arch1
+pkgrel=1
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
@@ -16,27 +16,41 @@ makedepends=(
 )
 options=('!strip')
 _srcname=archlinux-linux
-_fedora_kernel_commit_id=19ba47dedb21773e0338321928a8580e214409fb
+#_fedora_kernel_commit_id=19ba47dedb21773e0338321928a8580e214409fb
+_fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
 	"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
 	config         # the main kernel config file
-  "choose-gcc-optimization.sh"
-	"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
-	#"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
-  "sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
-	"sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.8+.patch"
-  "sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
-  #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
-  #"sys-kernel_arch-sources-g14_files-0007-ACPI-processor-idle-Fix-up-C-state-latency.patch"
-  #"sys-kernel_arch-sources-g14_files-0008-NVMe-set-some-AMD-PCIe-downstream-storage-device-to-D3-for-s2idle.patch"
-  #"sys-kernel_arch-sources-g14_files-0009-PCI-quirks-Quirk-PCI-d3hot-delay.patch"
-  #"sys-kernel_arch-sources-g14_files-0010-platform-x86-force-LPS0-functions-for-AMD.patch"
-  #"sys-kernel_arch-sources-g14_files-0011-USB-pci-quirks-disable-D3cold-on-s2idle-Renoire.patch"
+        "choose-gcc-optimization.sh"
+        "sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
+        #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
+        "sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
+        "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.8+.patch"
+        "sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
+        #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
+        #"sys-kernel_arch-sources-g14_files-0007-ACPI-processor-idle-Fix-up-C-state-latency.patch"
+        #"sys-kernel_arch-sources-g14_files-0008-NVMe-set-some-AMD-PCIe-downstream-storage-device-to-D3-for-s2idle.patch"
+        #"sys-kernel_arch-sources-g14_files-0009-PCI-quirks-Quirk-PCI-d3hot-delay.patch"
+        #"sys-kernel_arch-sources-g14_files-0010-platform-x86-force-LPS0-functions-for-AMD.patch"
+        #"sys-kernel_arch-sources-g14_files-0011-USB-pci-quirks-disable-D3cold-on-s2idle-Renoire.patch"
 
-  "https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
-  "sys-kernel_arch-sources-g14_files-0012-acpi-1of2-turn-off-unused.patch"::"https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/patch/?id=4b9ee772eaa82188b0eb8e05bdd1707c2a992004"
-  "sys-kernel_arch-sources-g14_files-0013-acpi-2of2-turn-off-unconditionally.patch"::"https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/patch/?id=7e4fdeafa61f2b653fcf9678f09935e55756aed2"
-  "sys-kernel_arch-sources-g14_files-0014-acpi_unused-v2.patch"
+        "https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
+        "sys-kernel_arch-sources-g14_files-0012-acpi-1of2-turn-off-unused.patch"::"https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/patch/?id=4b9ee772eaa82188b0eb8e05bdd1707c2a992004"
+        #"sys-kernel_arch-sources-g14_files-0013-acpi-2of2-turn-off-unconditionally.patch"::"https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/patch/?id=7e4fdeafa61f2b653fcf9678f09935e55756aed2"
+        #"sys-kernel_arch-sources-g14_files-0014-acpi_unused-v2.patch"
+        "5.12-acpi-refine-turning-off-unused-power-resources.patch"
+
+        "ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
+        "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
+        "nvme-pci-look-for-StorageD3Enable-on-companion-ACPI-device.patch"
+        "ACPI-Check-StorageD3Enable_DSD-property-in-AHCI-mode.patch"
+        "ACPI-Add-quirks-for-AMD-Renoir+Lucienne-CPUs-to-force-the-D3-hint.patch"
+        "ACPI-PM-s2idle-Add-missing-LPS0-functions-for-AMD.patch"
+        "ACPI-PM-s2idle-Use-correct-revision-id.patch"
+        "ACPI-PM-s2idle-Refactor-common-code.patch"
+        "ACPI-PM-s2idle-Add-support-for-multiple-func-mask.patch"
+        "ACPI-PM-s2idle-Add-support-for-new-Microsoft-UUID.patch"
+        "ACPI-PM-Adjust-behavior-for-field-problems-on-AMD-systems.patch"
 )
 
 validpgpkeys=(
@@ -52,10 +66,20 @@ sha256sums=('SKIP'
             '4a9e44dfbc7e9574ae86cf53a896b6c67f03b224e90e18982dfb0e4ba02a6c1b'
             '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
-            'e0977edd01cc1dd9cc8720d3ee2170bb3ba1e8a37eb77fe1c76c0852d580af4a'
+            'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
             '5af4796400245fec2e84d6e3f847b8896600558aa85f5e9c4706dd50994a9802'
-            '9cf7519ee1a0544f431c9fe57735aae7b9d150e62abed318837befc3b6af7c5f'
-            '87f133d34d84b8b34b0dad2bfd4cbbd557c6018f413a1852120d650273c628fb')
+            'f3b2dbdfd01d728ca1f4bc130eb227edd1985c2b2f7470c8a95aa75c6a85da10'
+            'b4a563ef30f86b9af0932c00bb3422b95eedbda1ff40a1a725c22a0ae9ab7084'
+            'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
+            '9e83c46bed9059ba78df6c17a2f7c80a1cdb6efbdf64ec643f68573ede891b95'
+            '6c5538dc21a139a4475af6c1acc5d2761923173992568f7c159db971ff3167cd'
+            '84119c2d2beb6d7dc56389f2d1be8052b4fd23022e15edd86ee59130adcd9ab7'
+            '478e908f89ae413c650116681710aed3e974384a2ed5e97be3755189688e5415'
+            '8c30af848c19e543043cbed07ee0a3f6f247ce2a137fbb0bb84a66024a106897'
+            '9c838fb8bd1e7874c9a39b48717c3be122d08fb17966dd28ea9da61186158837'
+            'b2dfc605c13b766cca8c89aa74828927cddf44bb65840ac32fdf3685fc837bbc'
+            '751966936e57a36644cf2d718b37c65519a2ffb8606d5ef315073321fc66877a'
+            'edbeac437170e74bb33b4b5e79bfa1005e3d2588d75610bd379257e5a5646049')
 
 # notable microarch levels:
 #
@@ -96,6 +120,25 @@ _fedora_kernel_patch_skip_list=(
 
   # applied above
   "0001-GV301QH-Flow-X13-Audio.patch"
+
+  # filter out suspend patches, we'll use upstream directly
+  "0001-ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
+  "0002-v5-usb-pci-quirks-disable-D3cold-on-xhci-suspend-for-s2idle-on-AMD-Renoir.diff"
+  "0003-PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.diff"
+  "0004-nvme-pci_look_for_StorageD3Enable_on_companion_ACPI_device_instead.patch"
+  "0005-v5-1-2-acpi-PM-Move-check-for-_DSD-StorageD3Enable-property-to-acpi.diff"
+  "0006-v5-2-2-acpi-PM-Add-quirks-for-AMD-Renoir-Lucienne-CPUs-to-force-the-D3-hint.diff"
+  "0007-ACPI_PM_s2idle_Add_missing_LPS0_functions_for_AMD.patch"
+  "0008-2-2-V2-platform-x86-force-LPS0-functions-for-AMD.diff"
+
+  # filter suspend patches from 'rog' branch
+  "0002-drm-amdgpu-drop-extraneous-hw_status-update.patch"
+  "0013-ACPI-idle-override-and-update-c-state-latency-when-n.patch"
+  "0014-usb-pci-quirks-disable-D3cold-on-AMD-xhci-suspend-fo.patch"
+  "0015-PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
+  "0016-nvme-put-some-AMD-PCIE-downstream-NVME-device-to-sim.patch"
+  "0017-platform-x86-Add-missing-LPS0-functions-for-AMD.patch"
+  "0018-platform-x86-force-LPS0-functions-for-AMD.patch"
 )
 
 export KBUILD_BUILD_HOST=archlinux
