@@ -2,7 +2,7 @@
 
 pkgbase=linux-g14
 pkgver=5.12.11.arch1
-pkgrel=1
+pkgrel=10.1
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
@@ -22,9 +22,9 @@ source=(
 	"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
 	config         # the main kernel config file
         "choose-gcc-optimization.sh"
-        "sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
+        #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
-        "sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
+        #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
         "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.8+.patch"
         "sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
         #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
@@ -41,7 +41,7 @@ source=(
         "5.12-acpi-refine-turning-off-unused-power-resources.patch"
 
         "ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
-        "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
+        #"PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
         "nvme-pci-look-for-StorageD3Enable-on-companion-ACPI-device.patch"
         "ACPI-Check-StorageD3Enable_DSD-property-in-AHCI-mode.patch"
         "ACPI-Add-quirks-for-AMD-Renoir+Lucienne-CPUs-to-force-the-D3-hint.patch"
@@ -51,6 +51,13 @@ source=(
         "ACPI-PM-s2idle-Add-support-for-multiple-func-mask.patch"
         "ACPI-PM-s2idle-Add-support-for-new-Microsoft-UUID.patch"
         "ACPI-PM-Adjust-behavior-for-field-problems-on-AMD-systems.patch"
+
+        "platform-x86-amd-pmc-Add-new-acpi-for-future-PMC.patch"
+        "platform-x86-amd-pmc-Add-support-for-ACPI-ID-AMDI0006.patch"
+        "platform-x86-amd-pmc-Add-support-for-logging-SMU-metrics.patch"
+        "platform-x86-amd-pmc-Add-support-for-s0ix-counters.patch"
+        "platform-x86-amd-pmc-Fix-command-completion-code.patch"
+        "platform-x86-amd-pmc-Fix-SMU-firmware-reporting-mechanism.patch"
 )
 
 validpgpkeys=(
@@ -62,15 +69,12 @@ validpgpkeys=(
 sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
-            'd9f5742fed4406396698897aa042d4d5fdbfd7c51add7483a777f9ab41901aac'
-            '4a9e44dfbc7e9574ae86cf53a896b6c67f03b224e90e18982dfb0e4ba02a6c1b'
             '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
             '5af4796400245fec2e84d6e3f847b8896600558aa85f5e9c4706dd50994a9802'
             'f3b2dbdfd01d728ca1f4bc130eb227edd1985c2b2f7470c8a95aa75c6a85da10'
             'b4a563ef30f86b9af0932c00bb3422b95eedbda1ff40a1a725c22a0ae9ab7084'
-            'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
             '9e83c46bed9059ba78df6c17a2f7c80a1cdb6efbdf64ec643f68573ede891b95'
             '6c5538dc21a139a4475af6c1acc5d2761923173992568f7c159db971ff3167cd'
             '84119c2d2beb6d7dc56389f2d1be8052b4fd23022e15edd86ee59130adcd9ab7'
@@ -79,7 +83,13 @@ sha256sums=('SKIP'
             '9c838fb8bd1e7874c9a39b48717c3be122d08fb17966dd28ea9da61186158837'
             'b2dfc605c13b766cca8c89aa74828927cddf44bb65840ac32fdf3685fc837bbc'
             '751966936e57a36644cf2d718b37c65519a2ffb8606d5ef315073321fc66877a'
-            'edbeac437170e74bb33b4b5e79bfa1005e3d2588d75610bd379257e5a5646049')
+            'edbeac437170e74bb33b4b5e79bfa1005e3d2588d75610bd379257e5a5646049'
+            'ae66bbed96b5946b5a20d902bc0282c7dd172650812114b24429f40d5ba225bb'
+            'bd975ab32d6490a4231d6ce4fab0343698b28407799bdaec133671e9fd778eb5'
+            'ad9f485bb262bb1156da57698ccab5a6b8d8ca34b6ae8a185dcd014a34c69557'
+            '3e8c51aff84b6f12e6bc61057982befd82415626fe379e83271ddeb1a9628734'
+            'bc783b22ab5ab75dc28ae10519a9d6da23d80ee291812115555945acd280edc5'
+            'dce87ca35886d075554fe6d8831075237d80526e078431165d2ec0d1a9630c7b')
 
 # notable microarch levels:
 #
@@ -98,28 +108,16 @@ _fedora_kernel_patch_skip_list=(
   # use plain file names or bash glob syntax, ** don't quote globs **
 
   # multi-select and ranges examples
-  #00{03,05,08}-drm-amdgpu*.patch
-  #00{01..12}-drm-amdgpu*.patch
+  # 00{03,05,08}-drm-amdgpu*.patch
+  # 00{01..12}-drm-amdgpu*.patch
   
   "linux-kernel-test.patch"           # test patch, please ignore
   patch-*-redhat.patch                # wildcard match any redhat patch version
-  00{01..12}-drm-amdgpu*.patch        # upstreamed in 5.12
+  # 00{01..12}-drm-amdgpu*.patch        # upstreamed in 5.12
 
   # upstreamed
   "0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
   "0001-ALSA-hda-realtek-GA503-use-same-quirks-as-GA401.patch"
-
-  # patch broken in 5.12.4, updated and included in package sources
-  "0001-Add-jack-toggle-support-for-headphones-on-Asus-ROG-Z.patch"
-
-  # applied a new version above in sources
-  "0013-ACPI-idle-override-and-update-c-state-latency-when-n.patch"
-
-  # applied a new version above in sources
-  "0014-usb-pci-quirks-disable-D3cold-on-AMD-xhci-suspend-fo.patch"
-
-  # applied above
-  "0001-GV301QH-Flow-X13-Audio.patch"
 
   # filter out suspend patches, we'll use upstream directly
   "0001-ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
