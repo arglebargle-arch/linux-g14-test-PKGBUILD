@@ -1,4 +1,4 @@
-From 007ec62403d0a592c7f0efb3812eb4512993c388 Mon Sep 17 00:00:00 2001
+From 0873305b912e5039e4d9bf2f81de3bc9cf9eae07 Mon Sep 17 00:00:00 2001
 From: Alex Deucher <alexander.deucher@amd.com>
 Date: Wed, 5 May 2021 09:20:32 -0400
 Subject: [PATCH] ACPI: PM: s2idle: Add missing LPS0 functions for AMD

@@ -1,4 +1,4 @@
-From 7dc51b02a491b3fc79b6b4166b7c07d6d2efdb7d Mon Sep 17 00:00:00 2001
+From a3c5cb660f9b75c581ed0b0616709e89a77f098a Mon Sep 17 00:00:00 2001
 From: Mario Limonciello <mario.limonciello@amd.com>
 Date: Wed, 12 May 2021 17:15:14 -0500
 Subject: [PATCH] ACPI: processor idle: Fix up C-state latency if not ordered
