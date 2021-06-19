@@ -1,8 +1,8 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgbase=linux-g14
-pkgver=5.12.11.arch1
-pkgrel=10.1
+pkgver=5.12.12.arch1
+pkgrel=10.2
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
@@ -52,12 +52,12 @@ source=(
         "5.14-4of5-ACPI-PM-s2idle-Add-support-for-new-Microsoft-UUID.patch"
         "5.14-5of5-ACPI-PM-s2idle-Adjust-behavior-for-field-problems-on-AMD-systems.patch"
 
-        #"platform-x86-amd-pmc-Add-new-acpi-for-future-PMC.patch"
-        #"platform-x86-amd-pmc-Add-support-for-ACPI-ID-AMDI0006.patch"
-        #"platform-x86-amd-pmc-Add-support-for-logging-SMU-metrics.patch"
-        #"platform-x86-amd-pmc-Add-support-for-s0ix-counters.patch"
-        #"platform-x86-amd-pmc-Fix-command-completion-code.patch"
-        #"platform-x86-amd-pmc-Fix-SMU-firmware-reporting-mechanism.patch"
+        "platform-x86-amd-pmc-Fix-command-completion-code.patch"
+        "platform-x86-amd-pmc-Fix-SMU-firmware-reporting-mechanism.patch"
+        "platform-x86-amd-pmc-Add-support-for-logging-SMU-metrics.patch"
+        "platform-x86-amd-pmc-Add-support-for-s0ix-counters.patch"
+        "platform-x86-amd-pmc-Add-support-for-ACPI-ID-AMDI0006.patch"
+        "platform-x86-amd-pmc-Add-new-acpi-for-future-PMC.patch"
 )
 
 validpgpkeys=(
@@ -83,7 +83,13 @@ sha256sums=('SKIP'
             '50f6e6a3371eaedd3b649a25c5044e6359853c2e3836a6af683a906abb973fba'
             '23ada5c29c415c0bb8d14cff213c697c649b438d7427a67a15b0b3f65c66aa6f'
             '9ea5d38eea3809e85c6f3165f4b410ee53f0fdb813cbbf229e18a87e79c13ad5'
-            'd6113df716cb81f78abc58405648d90f8497e29d79f5fd403eda36af867b50f3')
+            'd6113df716cb81f78abc58405648d90f8497e29d79f5fd403eda36af867b50f3'
+            'bc783b22ab5ab75dc28ae10519a9d6da23d80ee291812115555945acd280edc5'
+            'dce87ca35886d075554fe6d8831075237d80526e078431165d2ec0d1a9630c7b'
+            'ad9f485bb262bb1156da57698ccab5a6b8d8ca34b6ae8a185dcd014a34c69557'
+            '3e8c51aff84b6f12e6bc61057982befd82415626fe379e83271ddeb1a9628734'
+            'bd975ab32d6490a4231d6ce4fab0343698b28407799bdaec133671e9fd778eb5'
+            'ae66bbed96b5946b5a20d902bc0282c7dd172650812114b24429f40d5ba225bb')
 
 # notable microarch levels:
 #
@@ -112,6 +118,8 @@ _fedora_kernel_patch_skip_list=(
   # upstreamed
   "0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
   "0001-ALSA-hda-realtek-GA503-use-same-quirks-as-GA401.patch"
+  "0001-Add-jack-toggle-support-for-headphones-on-Asus-ROG-Z.patch"
+  "0001-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
 
   # filter out suspend patches, we'll use upstream directly
   "0001-ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"

@@ -1,7 +1,7 @@
 pkgbase = linux-g14
 	pkgdesc = Linux
-	pkgver = 5.12.11.arch1
-	pkgrel = 10.1
+	pkgver = 5.12.12.arch1
+	pkgrel = 10.2
 	url = https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/
 	arch = x86_64
 	license = GPL2
@@ -16,7 +16,7 @@ pkgbase = linux-g14
 	makedepends = git
 	makedepends = gcc>=11.0
 	options = !strip
-	source = archlinux-linux::git+https://git.archlinux.org/linux.git?signed#tag=v5.12.11-arch1
+	source = archlinux-linux::git+https://git.archlinux.org/linux.git?signed#tag=v5.12.12-arch1
 	source = config
 	source = choose-gcc-optimization.sh
 	source = sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch::https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.8+.patch
@@ -34,6 +34,12 @@ pkgbase = linux-g14
 	source = 5.14-3of5-ACPI-PM-s2idle-Add-support-for-multiple-func-mask.patch
 	source = 5.14-4of5-ACPI-PM-s2idle-Add-support-for-new-Microsoft-UUID.patch
 	source = 5.14-5of5-ACPI-PM-s2idle-Adjust-behavior-for-field-problems-on-AMD-systems.patch
+	source = platform-x86-amd-pmc-Fix-command-completion-code.patch
+	source = platform-x86-amd-pmc-Fix-SMU-firmware-reporting-mechanism.patch
+	source = platform-x86-amd-pmc-Add-support-for-logging-SMU-metrics.patch
+	source = platform-x86-amd-pmc-Add-support-for-s0ix-counters.patch
+	source = platform-x86-amd-pmc-Add-support-for-ACPI-ID-AMDI0006.patch
+	source = platform-x86-amd-pmc-Add-new-acpi-for-future-PMC.patch
 	validpgpkeys = ABAF11C65A2970B130ABE3C479BE3E4300411886
 	validpgpkeys = 647F28654894E3BD457199BE38DBBDC86092693E
 	validpgpkeys = A2FF3A36AAA56654109064AB19802F8B0D70FC30
@@ -55,6 +61,12 @@ pkgbase = linux-g14
 	sha256sums = 23ada5c29c415c0bb8d14cff213c697c649b438d7427a67a15b0b3f65c66aa6f
 	sha256sums = 9ea5d38eea3809e85c6f3165f4b410ee53f0fdb813cbbf229e18a87e79c13ad5
 	sha256sums = d6113df716cb81f78abc58405648d90f8497e29d79f5fd403eda36af867b50f3
+	sha256sums = bc783b22ab5ab75dc28ae10519a9d6da23d80ee291812115555945acd280edc5
+	sha256sums = dce87ca35886d075554fe6d8831075237d80526e078431165d2ec0d1a9630c7b
+	sha256sums = ad9f485bb262bb1156da57698ccab5a6b8d8ca34b6ae8a185dcd014a34c69557
+	sha256sums = 3e8c51aff84b6f12e6bc61057982befd82415626fe379e83271ddeb1a9628734
+	sha256sums = bd975ab32d6490a4231d6ce4fab0343698b28407799bdaec133671e9fd778eb5
+	sha256sums = ae66bbed96b5946b5a20d902bc0282c7dd172650812114b24429f40d5ba225bb
 
 pkgname = linux-g14
 	pkgdesc = The Linux kernel and modules
