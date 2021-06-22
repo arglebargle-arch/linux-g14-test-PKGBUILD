@@ -2,7 +2,7 @@
 
 pkgbase=linux-g14
 pkgver=5.12.12.arch1
-pkgrel=10.2
+pkgrel=2
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
@@ -16,7 +16,6 @@ makedepends=(
 )
 options=('!strip')
 _srcname=archlinux-linux
-#_fedora_kernel_commit_id=19ba47dedb21773e0338321928a8580e214409fb
 _fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
 	"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
@@ -41,7 +40,7 @@ source=(
         "5.13-acpi-refine-turning-off-unused-power-resources.patch"
 
         "5.14-ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
-        #"PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
+        "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
         "5.14-nvme-pci-look-for-StorageD3Enable-on-companion-ACPI-device.patch"
         "5.14-ACPI-Check-StorageD3Enable_DSD-property-in-AHCI-mode.patch"
         "5.14-ACPI-Add-quirks-for-AMD-Renoir+Lucienne-CPUs-to-force-the-D3-hint.patch"
@@ -75,6 +74,7 @@ sha256sums=('SKIP'
             '5af4796400245fec2e84d6e3f847b8896600558aa85f5e9c4706dd50994a9802'
             'f3b2dbdfd01d728ca1f4bc130eb227edd1985c2b2f7470c8a95aa75c6a85da10'
             'b4a563ef30f86b9af0932c00bb3422b95eedbda1ff40a1a725c22a0ae9ab7084'
+            'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
             '9e83c46bed9059ba78df6c17a2f7c80a1cdb6efbdf64ec643f68573ede891b95'
             '6c5538dc21a139a4475af6c1acc5d2761923173992568f7c159db971ff3167cd'
             '84119c2d2beb6d7dc56389f2d1be8052b4fd23022e15edd86ee59130adcd9ab7'
