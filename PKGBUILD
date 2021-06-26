@@ -1,10 +1,12 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgbase=linux-g14
-pkgver=5.12.13.arch1
-pkgrel=2
+pkgver=5.12.13.arch0
+_tagver=5.12.13.arch1
+pkgrel=3
 pkgdesc='Linux'
-_srctag=v${pkgver%.*}-${pkgver##*.}
+#_srctag=v${pkgver%.*}-${pkgver##*.}
+_srctag=v${_tagver%.*}-${_tagver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
 arch=(x86_64)
 license=(GPL2)
@@ -18,9 +20,18 @@ options=('!strip')
 _srcname=archlinux-linux
 _fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
-	"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
+        # NOTE: Be sure to change to the new repo url in your arch-linux/config *before* running makepkg
+        #
+        #   url = https://git.archlinux.org/linux.git
+
+        #"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
+        "$_srcname::git+https://github.com/archlinux/linux.git?signed#tag=$_srctag"
 	config         # the main kernel config file
         "choose-gcc-optimization.sh"
+
+        # revert broken 5.12.13.arch1 commits back to 5.12.13 upstream; retag as -arch0
+        "revert-arch1-to-upstream-arch0.patch"
+
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
         #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
@@ -72,6 +83,7 @@ validpgpkeys=(
 sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
+            'd75719b460ddc6086a4bc237f2808e9429902ad826de520cbb9ccaed0e427bbd'
             '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
@@ -161,6 +173,7 @@ prepare() {
 
   echo "Setting version..."
   scripts/setlocalversion --save-scmversion
+  #echo '' >.scmversion                        # HACK:  maybe needed
   echo "-$pkgrel" > localversion.99-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
 
