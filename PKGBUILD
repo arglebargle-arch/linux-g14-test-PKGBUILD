@@ -1,7 +1,7 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgbase=linux-g14
-pkgver=5.12.13.arch0
+pkgver=5.12.13.notarch1
 _tagver=5.12.13.arch1
 pkgrel=3
 pkgdesc='Linux'
@@ -29,8 +29,8 @@ source=(
 	config         # the main kernel config file
         "choose-gcc-optimization.sh"
 
-        # revert broken 5.12.13.arch1 commits back to 5.12.13 upstream; retag as -arch0
-        "revert-arch1-to-upstream-arch0.patch"
+        # revert broken 5.12.13.arch1 commits back to 5.12.13 upstream; leave unprivileged USERNS commit intact
+        "revert-5.12.13.arch1-to-upstream-5.12.13ish.patch"
 
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
@@ -83,7 +83,7 @@ validpgpkeys=(
 sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
-            'd75719b460ddc6086a4bc237f2808e9429902ad826de520cbb9ccaed0e427bbd'
+            'b53609a5072a821db11b5510a1cfedc9e7d85af2eb42620e0368c93d730599c1'
             '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
