@@ -3,7 +3,7 @@
 pkgbase=linux-g14
 pkgver=5.12.13.notarch1
 _tagver=5.12.13.arch1
-pkgrel=3
+pkgrel=4
 pkgdesc='Linux'
 #_srctag=v${pkgver%.*}-${pkgver##*.}
 _srctag=v${_tagver%.*}-${_tagver##*.}
@@ -83,7 +83,7 @@ validpgpkeys=(
 sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
-            'b53609a5072a821db11b5510a1cfedc9e7d85af2eb42620e0368c93d730599c1'
+            '05f47255831028b9e3a49e335323169d0156201d5e9b2bf8e09093440ab9e56e'
             '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
