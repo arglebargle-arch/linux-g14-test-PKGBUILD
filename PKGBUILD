@@ -21,12 +21,9 @@ _srcname=archlinux-linux
 _fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
         # NOTE: Be sure to change to the new repo url in your arch-linux/config *before* running makepkg
-        #
         #   url = https://git.archlinux.org/linux.git
-
-        #"$_srcname::git+https://git.archlinux.org/linux.git?signed#tag=$_srctag"
         "$_srcname::git+https://github.com/archlinux/linux.git?signed#tag=$_srctag"
-	config         # the main kernel config file
+        config    # the main kernel config file
         "choose-gcc-optimization.sh"
 
         # revert broken 5.12.13.arch1 commits back to 5.12.13 upstream; leave unprivileged USERNS commit intact
