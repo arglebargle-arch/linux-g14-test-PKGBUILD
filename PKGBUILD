@@ -26,7 +26,7 @@ source=(
         config    # the main kernel config file
         "choose-gcc-optimization.sh"
 
-        # revert broken 5.12.13.arch1 commits back to 5.12.13 upstream; leave unprivileged USERNS commit intact
+        # revert 5.12.13.arch1 <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
         "revert-5.12.13.arch1-to-upstream-5.12.13ish.patch"
 
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
