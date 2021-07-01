@@ -32,7 +32,7 @@ source=(
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
         #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
-        "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-5.8+.patch"
+        "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch"
         "sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
         #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
         #"sys-kernel_arch-sources-g14_files-0007-ACPI-processor-idle-Fix-up-C-state-latency.patch"
@@ -67,7 +67,7 @@ sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
             '05f47255831028b9e3a49e335323169d0156201d5e9b2bf8e09093440ab9e56e'
-            '559f28d1c7207d3f564e4e21d680e6c1d834db58e715f0020b74d03cc0355d47'
+            'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
             'e03b26bbfd6d7a3fffa290346f96e6f4376e09ac3a76bc658eaab0cd8b486ddd'
