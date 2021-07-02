@@ -3,7 +3,7 @@
 pkgbase=linux-g14
 pkgver=5.12.13.notarch1
 _tagver=5.12.13.arch1
-pkgrel=4
+pkgrel=5
 pkgdesc='Linux'
 #_srctag=v${pkgver%.*}-${pkgver##*.}
 _srctag=v${_tagver%.*}-${_tagver##*.}
