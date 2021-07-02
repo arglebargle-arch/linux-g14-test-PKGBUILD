@@ -140,7 +140,6 @@ prepare() {
 
   echo "Setting version..."
   scripts/setlocalversion --save-scmversion
-  #echo '' >.scmversion                        # HACK:  maybe needed
   echo "-$pkgrel" > localversion.99-pkgrel
   echo "${pkgbase#linux}" > localversion.20-pkgname
 
