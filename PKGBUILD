@@ -43,8 +43,8 @@ source=(
 
         "https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
 
-        "revert-4cbbe34807938e6e494e535a68d5ff64edac3f20.patch"
-        "revert-1c0b0efd148d5b24c4932ddb3fa03c8edd6097b3.patch"
+        # hotfix; revert amdgpu commits on 5.12.13
+        "hotfix-5.12.13-revert-amdgpu-commits.patch"
 
         # backported ACPI turn off unused devices patchset; includes refinement patch
         "backport-from-5.13-acpi-turn-off-unused+refined.diff"
@@ -70,8 +70,7 @@ sha256sums=('SKIP'
             'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
-            'e03b26bbfd6d7a3fffa290346f96e6f4376e09ac3a76bc658eaab0cd8b486ddd'
-            '3cff17ff6953eef7c17d066d56e510713f2692efac90c61b748d9d38b318f5c8'
+            'e213f6c30c0ec2d657912d8fd19c50b1ae281f0fbc91f554a913748086499a91'
             '2538941e760cb0ff8e197a46695f6709b7520f0617fb565e5d2d5d28fe125afe'
             'e4cbedbcf939961af425135bb208266c726178c4017309719341f8c37f65c273'
             'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
