@@ -1,9 +1,9 @@
 # Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
 pkgbase=linux-g14
-pkgver=5.12.13.notarch1
-_tagver=5.12.13.arch1
-pkgrel=5
+pkgver=5.12.14.notarch1   # I'm carrying this until I can drop the lowmem revert
+_tagver=5.12.14.arch1
+pkgrel=1
 pkgdesc='Linux'
 #_srctag=v${pkgver%.*}-${pkgver##*.}
 _srctag=v${_tagver%.*}-${_tagver##*.}
@@ -26,8 +26,8 @@ source=(
         config    # the main kernel config file
         "choose-gcc-optimization.sh"
 
-        # revert 5.12.13.arch1 <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
-        "revert-5.12.13.arch1-to-upstream-5.12.13ish.patch"
+        # revert <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
+        "revert-1MB-unconditional-memory-reservation.patch"
 
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
@@ -42,9 +42,6 @@ source=(
         #"sys-kernel_arch-sources-g14_files-0011-USB-pci-quirks-disable-D3cold-on-s2idle-Renoire.patch"
 
         "https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
-
-        # hotfix; revert amdgpu commits on 5.12.13
-        "hotfix-5.12.13-revert-amdgpu-commits.patch"
 
         # backported ACPI turn off unused devices patchset; includes refinement patch
         "backport-from-5.13-acpi-turn-off-unused+refined.diff"
@@ -70,7 +67,6 @@ sha256sums=('SKIP'
             'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
             'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
-            'e213f6c30c0ec2d657912d8fd19c50b1ae281f0fbc91f554a913748086499a91'
             '2538941e760cb0ff8e197a46695f6709b7520f0617fb565e5d2d5d28fe125afe'
             'e4cbedbcf939961af425135bb208266c726178c4017309719341f8c37f65c273'
             'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
