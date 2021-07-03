@@ -179,10 +179,11 @@ prepare() {
   echo "Setting config..."
   cp ../config .config
 
-  # let user choose microarchitecture optimization in GCC
-  sh ${srcdir}/choose-gcc-optimization.sh $_microarchitecture
-
   make olddefconfig
+
+  # let user choose microarchitecture optimization in GCC
+  # this needs to run *after* `make olddefconfig` so that our newly added configuration macros exist
+  sh ${srcdir}/choose-gcc-optimization.sh $_microarchitecture
 
   make -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"
