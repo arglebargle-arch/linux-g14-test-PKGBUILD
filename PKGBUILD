@@ -1,9 +1,12 @@
-# Maintainer: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+# Maintainer: Arglebargle < arglebargle at arglebargle dot dev>
+# Contributor: Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
 
-pkgbase=linux-g14
-pkgver=5.12.14.notarch1   # I'm carrying this until I can drop the lowmem revert
-_tagver=5.12.14.arch1
-pkgrel=1
+# NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
+
+pkgbase=linux-g14-test
+pkgver=5.12.15.notarch1   # I'm carrying this name until I can drop the lowmem revert
+_tagver=5.12.15.arch1
+pkgrel=10                 # crank version so we don't try to update from the repos
 pkgdesc='Linux'
 #_srctag=v${pkgver%.*}-${pkgver##*.}
 _srctag=v${_tagver%.*}-${_tagver##*.}
@@ -18,7 +21,7 @@ makedepends=(
 )
 options=('!strip')
 _srcname=archlinux-linux
-_fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
+#_fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
         # NOTE: Be sure to change to the new repo url in your arch-linux/config *before* running makepkg
         #   url = https://git.archlinux.org/linux.git
@@ -41,17 +44,27 @@ source=(
         #"sys-kernel_arch-sources-g14_files-0010-platform-x86-force-LPS0-functions-for-AMD.patch"
         #"sys-kernel_arch-sources-g14_files-0011-USB-pci-quirks-disable-D3cold-on-s2idle-Renoire.patch"
 
-        "https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
+        # carry our ROG patches by hand temporarily
+        #"https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
 
         # backported ACPI turn off unused devices patchset; includes refinement patch
         "backport-from-5.13-acpi-turn-off-unused+refined.diff"
 
-        # backported s0ix enablement patches
-        "backport-from-5.14-s0ix-enablement-no-d3hot.diff"
-        # this isn't included in 5.14; they're waiting on AMD to publish errata before inclusion
+        # backported s0ix enablement patches (incl EC GPE) + amd_pmc v5 patch set; all patches through 2021-06-29
+        "backport-from-5.14-s0ix-enablement-no-d3hot-2021-06-30.patch"
+        # d3hot quirk isn't included in 5.14; they're waiting on AMD to publish errata before inclusion
         "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
-        # s0ix & SMU diagnostics
-        "v5-platform-x86-amd-pmc-s0ix+smu-counters.diff"
+
+        # ROG patches
+        "0001-asus-wmi-Add-panel-overdrive-functionality.patch"
+        "0002-asus-wmi-Add-dgpu-disable-method.patch"
+        "0003-asus-wmi-Add-egpu-enable-method.patch"
+        #"0004-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
+        #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
+        "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
+        "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
+        "0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
+        "0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
 )
 
 validpgpkeys=(
@@ -66,11 +79,16 @@ sha256sums=('SKIP'
             '05f47255831028b9e3a49e335323169d0156201d5e9b2bf8e09093440ab9e56e'
             'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
             'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
-            'f94b12f56e99ebfc87014f9570a987bca7b50400c412ddbbb7035d73c5d8c668'
             '2538941e760cb0ff8e197a46695f6709b7520f0617fb565e5d2d5d28fe125afe'
-            'e4cbedbcf939961af425135bb208266c726178c4017309719341f8c37f65c273'
+            'ea96d0cc98ba34396a100f0afc10e392c60415f08c4b1ddfd99f2ca532d5ac12'
             'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
-            'b108959c4a53d771eb2d860a7d52b4a6701e0af9405bef325905c0e273b4d4fe')
+            '09cf9fa947e58aacf25ff5c36854b82d97ad8bda166a7e00d0f3f4df7f60a695'
+            '7a685e2e2889af744618a95ef49593463cd7e12ae323f964476ee9564c208b77'
+            '663b664f4a138ccca6c4edcefde6a045b79a629d3b721bfa7b9cc115f704456e'
+            '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
+            '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
+            'ee5fdeacb2d8059bc119d6990c0bd68c3c4f7f5b29c9b4a8b2140e9465dd43d5'
+            'd46d3562b95c4f679386e7f3209babd335c7a2b599a1196bd8c50bccedd644be')
 
 # notable microarch levels:
 #
@@ -126,10 +144,10 @@ export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
-_fedora_patch_in_skip_list() {
-  for p in "${_fedora_kernel_patch_skip_list[@]}"; do [[ "$1" == $p ]] && return 0; done
-  return 1
-}
+#_fedora_patch_in_skip_list() {
+#  for p in "${_fedora_kernel_patch_skip_list[@]}"; do [[ "$1" == $p ]] && return 0; done
+#  return 1
+#}
 
 prepare() {
   cd $_srcname
@@ -148,33 +166,33 @@ prepare() {
     patch -Np1 < "../$src"
   done
 
-  msg2 "Applying asus-linux patches..."
-  local p_err=()
-  local p_meh=()
+  #msg2 "Applying asus-linux patches..."
+  #local p_err=()
+  #local p_meh=()
 
-  # this will apply only enabled patches from the fedora-linux kernel.spec
-  # this stops us from applying broken or in-progress patches that are in git but aren't actually in use
+  ## this will apply only enabled patches from the fedora-linux kernel.spec
+  ## this stops us from applying broken or in-progress patches that are in git but aren't actually in use
 
-  local _fkernel_path="../fedora-kernel-${_fedora_kernel_commit_id}"
-  for src in $(awk -F ' ' '/^ApplyOptionalPatch.*(patch|diff)$/{print $2}' "${_fkernel_path}/kernel.spec"); do
-    src="${src##*/}"
-    _fedora_patch_in_skip_list "$src" && continue
-    echo "Applying patch $src..."
-    if OUT="$(patch --forward -Np1 < "${_fkernel_path}/$src")"; then
-      : #plain "Applied patch $src..."
-    else
-      # if you want to ignore a specific patch failure for some reason do it right here, then 'continue'
-      if { echo "$OUT" | grep -qiE 'hunk(|s) FAILED'; }; then
-        error "Patch failed $src" && echo "$OUT" && p_err+=("$src") && _throw=y
-      else
-        warning "Duplicate patch $src" && p_meh+=("$src")
-      fi
-    fi
-  done
-  (( ${#p_err[@]} > 0 )) && error "Failed patches:" && for p in ${p_err[@]}; do plain "$p"; done
-  (( ${#p_meh[@]} > 0 )) && warning "Duplicate patches:" && for p in ${p_meh[@]}; do plain "$p"; done
-  # if throw is defined we had a hard patch failure, propagate it and stop so we can address
-  [[ -z "$_throw" ]]
+  #local _fkernel_path="../fedora-kernel-${_fedora_kernel_commit_id}"
+  #for src in $(awk -F ' ' '/^ApplyOptionalPatch.*(patch|diff)$/{print $2}' "${_fkernel_path}/kernel.spec"); do
+  #  src="${src##*/}"
+  #  _fedora_patch_in_skip_list "$src" && continue
+  #  echo "Applying patch $src..."
+  #  if OUT="$(patch --forward -Np1 < "${_fkernel_path}/$src")"; then
+  #    : #plain "Applied patch $src..."
+  #  else
+  #    # if you want to ignore a specific patch failure for some reason do it right here, then 'continue'
+  #    if { echo "$OUT" | grep -qiE 'hunk(|s) FAILED'; }; then
+  #      error "Patch failed $src" && echo "$OUT" && p_err+=("$src") && _throw=y
+  #    else
+  #      warning "Duplicate patch $src" && p_meh+=("$src")
+  #    fi
+  #  fi
+  #done
+  #(( ${#p_err[@]} > 0 )) && error "Failed patches:" && for p in ${p_err[@]}; do plain "$p"; done
+  #(( ${#p_meh[@]} > 0 )) && warning "Duplicate patches:" && for p in ${p_meh[@]}; do plain "$p"; done
+  ## if throw is defined we had a hard patch failure, propagate it and stop so we can address
+  #[[ -z "$_throw" ]]
 
   echo "Setting config..."
   cp ../config .config
@@ -199,7 +217,7 @@ _package() {
   depends=(coreutils kmod initramfs)
   optdepends=('crda: to set the correct wireless channels of your country'
               'linux-firmware: firmware images needed for some devices')
-  provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE)
+  provides=(VIRTUALBOX-GUEST-MODULES WIREGUARD-MODULE linux-g14)
   replaces=(virtualbox-guest-modules-arch wireguard-arch)
 
   cd $_srcname
@@ -223,6 +241,7 @@ _package() {
 
 _package-headers() {
   pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
+  provides=(linux-g14-headers)
   depends=(pahole)
 
   cd $_srcname

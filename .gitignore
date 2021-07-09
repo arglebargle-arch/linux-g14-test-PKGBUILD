@@ -1,5 +1,6 @@
 stale-patches/
 buildlog*
+*log
 src/
 src-cache/
 linux-g14*.tar.lz
