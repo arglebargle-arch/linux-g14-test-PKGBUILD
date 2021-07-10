@@ -3,5 +3,6 @@ buildlog*
 *log
 src/
 src-cache/
+src-cache
 linux-g14*.tar.lz
 linux-g14*.tar.zst

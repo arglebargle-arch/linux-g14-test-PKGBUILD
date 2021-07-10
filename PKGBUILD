@@ -4,12 +4,12 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.12.15.notarch1   # I'm carrying this name until I can drop the lowmem revert
-_tagver=5.12.15.arch1
-pkgrel=10                 # crank version so we don't try to update from the repos
+pkgver=5.13.1.arch1
+#_tagver=5.13.1.arch1
+pkgrel=10               # start our versioning from 10 so pacman doesn't try to use the repo
 pkgdesc='Linux'
-#_srctag=v${pkgver%.*}-${pkgver##*.}
-_srctag=v${_tagver%.*}-${_tagver##*.}
+_srctag=v${pkgver%.*}-${pkgver##*.}
+#_srctag=v${_tagver%.*}-${_tagver##*.}
 url="https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/"
 arch=(x86_64)
 license=(GPL2)
@@ -29,14 +29,14 @@ source=(
         config    # the main kernel config file
         "choose-gcc-optimization.sh"
 
-        # revert <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
-        "revert-1MB-unconditional-memory-reservation.patch"
+        ## revert <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
+        #"revert-1MB-unconditional-memory-reservation.patch"
 
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
         #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
         "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch"
-        "sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
+        #"sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
         #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
         #"sys-kernel_arch-sources-g14_files-0007-ACPI-processor-idle-Fix-up-C-state-latency.patch"
         #"sys-kernel_arch-sources-g14_files-0008-NVMe-set-some-AMD-PCIe-downstream-storage-device-to-D3-for-s2idle.patch"
@@ -47,11 +47,13 @@ source=(
         # carry our ROG patches by hand temporarily
         #"https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
 
-        # backported ACPI turn off unused devices patchset; includes refinement patch
-        "backport-from-5.13-acpi-turn-off-unused+refined.diff"
+        # multigenerational LRU v3
+        "mm-multigenerational-lru-v3.diff"
 
         # backported s0ix enablement patches (incl EC GPE) + amd_pmc v5 patch set; all patches through 2021-06-29
         "backport-from-5.14-s0ix-enablement-no-d3hot-2021-06-30.patch"
+        # new patch, 2021-07-07
+        "platform-x86-amd-pmc-Use-return-code-on-suspend.patch"
         # d3hot quirk isn't included in 5.14; they're waiting on AMD to publish errata before inclusion
         "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
 
@@ -63,8 +65,8 @@ source=(
         #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
         "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
         "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
-        "0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
-        "0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
+        #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
+        #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
 )
 
 validpgpkeys=(
@@ -76,19 +78,16 @@ validpgpkeys=(
 sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
-            '05f47255831028b9e3a49e335323169d0156201d5e9b2bf8e09093440ab9e56e'
             'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
-            'b9e4b11f6ca413fa7fcd1d810215bf3a36e69eedc4570f4209f7c1957083b2f3'
-            '2538941e760cb0ff8e197a46695f6709b7520f0617fb565e5d2d5d28fe125afe'
+            '9327ac3edacbc60a023928147f9439789527fad62cef66945f35a9165108e30d'
             'ea96d0cc98ba34396a100f0afc10e392c60415f08c4b1ddfd99f2ca532d5ac12'
+            '8825ad8161336d2f08b37b59bfe6c66a3c46e6e7d35dc19122fb92a2c1e4a447'
             'dab4db308ede1aa35166f31671572eeccf0e7637b3218ce3ae519c2705934f79'
             '09cf9fa947e58aacf25ff5c36854b82d97ad8bda166a7e00d0f3f4df7f60a695'
             '7a685e2e2889af744618a95ef49593463cd7e12ae323f964476ee9564c208b77'
             '663b664f4a138ccca6c4edcefde6a045b79a629d3b721bfa7b9cc115f704456e'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
-            '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
-            'ee5fdeacb2d8059bc119d6990c0bd68c3c4f7f5b29c9b4a8b2140e9465dd43d5'
-            'd46d3562b95c4f679386e7f3209babd335c7a2b599a1196bd8c50bccedd644be')
+            '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1')
 
 # notable microarch levels:
 #
@@ -202,6 +201,12 @@ prepare() {
   # let user choose microarchitecture optimization in GCC
   # this needs to run *after* `make olddefconfig` so that our newly added configuration macros exist
   sh ${srcdir}/choose-gcc-optimization.sh $_microarchitecture
+
+  ## apply any user config customizations
+  if [[ -s ${startdir}/myconfig-fragment ]]; then
+    msg2 "Applying config fragment..."
+    bash -x ${startdir}/myconfig-fragment
+  fi
 
   make -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"
