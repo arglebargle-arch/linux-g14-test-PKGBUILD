@@ -29,9 +29,6 @@ source=(
         config    # the main kernel config file
         "choose-gcc-optimization.sh"
 
-        ## revert <=1MB memory reservation; not sure why this crashes my machine on suspend but it does
-        #"revert-1MB-unconditional-memory-reservation.patch"
-
         #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
         #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
         #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
