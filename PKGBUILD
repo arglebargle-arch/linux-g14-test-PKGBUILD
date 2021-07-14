@@ -6,7 +6,7 @@
 pkgbase=linux-g14-test
 pkgver=5.13.1.arch1
 #_tagver=5.13.1.arch1
-pkgrel=10               # start our versioning from 10 so pacman doesn't try to use the repo
+pkgrel=10             # TODO: revert back to 1-based versioning next point release
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 #_srctag=v${_tagver%.*}-${_tagver##*.}
@@ -21,49 +21,35 @@ makedepends=(
 )
 options=('!strip')
 _srcname=archlinux-linux
-#_fedora_kernel_commit_id=91f97d88231152006764d3c50cc52ddbb508529f
 source=(
-        # NOTE: Be sure to change to the new repo url in your arch-linux/config *before* running makepkg
-        #   url = https://git.archlinux.org/linux.git
-        "$_srcname::git+https://github.com/archlinux/linux.git?signed#tag=$_srctag"
-        config    # the main kernel config file
-        "choose-gcc-optimization.sh"
+  "$_srcname::git+https://github.com/archlinux/linux.git?signed#tag=$_srctag"
+  config    # the main kernel config file
 
-        #"sys-kernel_arch-sources-g14_files_0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
-        #"sys-kernel_arch-sources-g14_files-0002-acpi_unused.patch"
-        #"sys-kernel_arch-sources-g14_files-0003-flow-x13-sound.patch"
-        "sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch"
-        #"sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
-        #"sys-kernel_arch-sources-g14_files-0006-ACPI-PM-s2idle-Add-missing-LPS0-functions.patch"
-        #"sys-kernel_arch-sources-g14_files-0007-ACPI-processor-idle-Fix-up-C-state-latency.patch"
-        #"sys-kernel_arch-sources-g14_files-0008-NVMe-set-some-AMD-PCIe-downstream-storage-device-to-D3-for-s2idle.patch"
-        #"sys-kernel_arch-sources-g14_files-0009-PCI-quirks-Quirk-PCI-d3hot-delay.patch"
-        #"sys-kernel_arch-sources-g14_files-0010-platform-x86-force-LPS0-functions-for-AMD.patch"
-        #"sys-kernel_arch-sources-g14_files-0011-USB-pci-quirks-disable-D3cold-on-s2idle-Renoire.patch"
+  # graysky's compiler uarch optimization patch, script courtesy of the `linux-xanmod` AUR package
+  "choose-gcc-optimization.sh"
+  "more-uarches-for-kernel-5.8+.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch"
 
-        # carry our ROG patches by hand temporarily
-        #"https://gitlab.com/asus-linux/fedora-kernel/-/archive/$_fedora_kernel_commit_id/fedora-kernel-$_fedora_kernel_commit_id.zip"
+  # multigenerational LRU v3
+  "mm-multigenerational-lru-v3.diff"
 
-        # multigenerational LRU v3
-        "mm-multigenerational-lru-v3.diff"
+  # backported s0ix enablement patches (incl EC GPE) + amd_pmc v5 patch set; all patches through 2021-06-30
+  "backport-from-5.14-s0ix-enablement-no-d3hot-2021-06-30.patch"
+  "platform-x86-amd-pmc-Use-return-code-on-suspend.patch"           # new patch, 2021-07-07
+  "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"             # not upstream; awaiting AMD errata
 
-        # backported s0ix enablement patches (incl EC GPE) + amd_pmc v5 patch set; all patches through 2021-06-29
-        "backport-from-5.14-s0ix-enablement-no-d3hot-2021-06-30.patch"
-        # new patch, 2021-07-07
-        "platform-x86-amd-pmc-Use-return-code-on-suspend.patch"
-        # d3hot quirk isn't included in 5.14; they're waiting on AMD to publish errata before inclusion
-        "PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
+  # backported from v5.14 -- USB Audio latency improvement
+  # "9001-ALSA-usb-audio-Reduce-latency-at-playback-start-take.patch"
 
-        # ROG patches
-        "0001-asus-wmi-Add-panel-overdrive-functionality.patch"
-        "0002-asus-wmi-Add-dgpu-disable-method.patch"
-        "0003-asus-wmi-Add-egpu-enable-method.patch"
-        #"0004-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
-        #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
-        "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
-        "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
-        #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
-        #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
+  # ROG patches
+  "0001-asus-wmi-Add-panel-overdrive-functionality.patch"
+  "0002-asus-wmi-Add-dgpu-disable-method.patch"
+  "0003-asus-wmi-Add-egpu-enable-method.patch"
+  #"0004-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
+  #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
+  "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
+  "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
+  #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
+  #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
 )
 
 validpgpkeys=(
@@ -86,64 +72,17 @@ sha256sums=('SKIP'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
             '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1')
 
-# notable microarch levels:
-#
-# 14, Zen2
-# 15, Zen3
-# 38, Skylake (Comet Lake laptops)
-# 93, x86-64-v3 (package default)
-# 98, Intel Native
-# 99, AMD Native
-if [ -z ${_microarchitecture+x} ]; then
-  _microarchitecture=93
-fi
-
-_fedora_kernel_patch_skip_list=(
-  # fedora kernel patches to skip
-  # use plain file names or bash glob syntax, ** don't quote globs **
-
-  # multi-select and ranges examples
-  # 00{03,05,08}-drm-amdgpu*.patch
-  # 00{01..12}-drm-amdgpu*.patch
-  
-  "linux-kernel-test.patch"           # test patch, please ignore
-  patch-*-redhat.patch                # wildcard match any redhat patch version
-  # 00{01..12}-drm-amdgpu*.patch        # upstreamed in 5.12
-
-  # upstreamed
-  "0001-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
-  "0001-ALSA-hda-realtek-GA503-use-same-quirks-as-GA401.patch"
-  "0001-Add-jack-toggle-support-for-headphones-on-Asus-ROG-Z.patch"
-  "0001-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
-
-  # filter out suspend patches, we'll use upstream directly
-  "0001-ACPI-processor-idle-Fix-up-C-state-latency-if-not-ordered.patch"
-  "0002-v5-usb-pci-quirks-disable-D3cold-on-xhci-suspend-for-s2idle-on-AMD-Renoir.diff"
-  "0003-PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.diff"
-  "0004-nvme-pci_look_for_StorageD3Enable_on_companion_ACPI_device_instead.patch"
-  "0005-v5-1-2-acpi-PM-Move-check-for-_DSD-StorageD3Enable-property-to-acpi.diff"
-  "0006-v5-2-2-acpi-PM-Add-quirks-for-AMD-Renoir-Lucienne-CPUs-to-force-the-D3-hint.diff"
-  "0007-ACPI_PM_s2idle_Add_missing_LPS0_functions_for_AMD.patch"
-  "0008-2-2-V2-platform-x86-force-LPS0-functions-for-AMD.diff"
-
-  # filter suspend patches from 'rog' branch
-  "0002-drm-amdgpu-drop-extraneous-hw_status-update.patch"
-  "0013-ACPI-idle-override-and-update-c-state-latency-when-n.patch"
-  "0014-usb-pci-quirks-disable-D3cold-on-AMD-xhci-suspend-fo.patch"
-  "0015-PCI-quirks-Quirk-PCI-d3hot-delay-for-AMD-xhci.patch"
-  "0016-nvme-put-some-AMD-PCIE-downstream-NVME-device-to-sim.patch"
-  "0017-platform-x86-Add-missing-LPS0-functions-for-AMD.patch"
-  "0018-platform-x86-force-LPS0-functions-for-AMD.patch"
-)
+# default to x86-64-v3 microarch if not set
+# other notable values:
+#  Zen2: 14
+#  Zen3: 15
+#  Skylake & Comet Lake: 38
+#  Intel/AMD Native: 98/99
+_microarchitecture=${_microarchitecture:-'93'}
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
-
-#_fedora_patch_in_skip_list() {
-#  for p in "${_fedora_kernel_patch_skip_list[@]}"; do [[ "$1" == $p ]] && return 0; done
-#  return 1
-#}
 
 prepare() {
   cd $_srcname
@@ -161,34 +100,6 @@ prepare() {
     echo "Applying patch $src..."
     patch -Np1 < "../$src"
   done
-
-  #msg2 "Applying asus-linux patches..."
-  #local p_err=()
-  #local p_meh=()
-
-  ## this will apply only enabled patches from the fedora-linux kernel.spec
-  ## this stops us from applying broken or in-progress patches that are in git but aren't actually in use
-
-  #local _fkernel_path="../fedora-kernel-${_fedora_kernel_commit_id}"
-  #for src in $(awk -F ' ' '/^ApplyOptionalPatch.*(patch|diff)$/{print $2}' "${_fkernel_path}/kernel.spec"); do
-  #  src="${src##*/}"
-  #  _fedora_patch_in_skip_list "$src" && continue
-  #  echo "Applying patch $src..."
-  #  if OUT="$(patch --forward -Np1 < "${_fkernel_path}/$src")"; then
-  #    : #plain "Applied patch $src..."
-  #  else
-  #    # if you want to ignore a specific patch failure for some reason do it right here, then 'continue'
-  #    if { echo "$OUT" | grep -qiE 'hunk(|s) FAILED'; }; then
-  #      error "Patch failed $src" && echo "$OUT" && p_err+=("$src") && _throw=y
-  #    else
-  #      warning "Duplicate patch $src" && p_meh+=("$src")
-  #    fi
-  #  fi
-  #done
-  #(( ${#p_err[@]} > 0 )) && error "Failed patches:" && for p in ${p_err[@]}; do plain "$p"; done
-  #(( ${#p_meh[@]} > 0 )) && warning "Duplicate patches:" && for p in ${p_meh[@]}; do plain "$p"; done
-  ## if throw is defined we had a hard patch failure, propagate it and stop so we can address
-  #[[ -z "$_throw" ]]
 
   echo "Setting config..."
   cp ../config .config

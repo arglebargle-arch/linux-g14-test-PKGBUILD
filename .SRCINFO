@@ -19,7 +19,7 @@ pkgbase = linux-g14-test
 	source = archlinux-linux::git+https://github.com/archlinux/linux.git?signed#tag=v5.13.1-arch1
 	source = config
 	source = choose-gcc-optimization.sh
-	source = sys-kernel_arch-sources-g14_files-0004-5.8+--more-uarches-for-kernel.patch::https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch
+	source = more-uarches-for-kernel-5.8+.patch::https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch
 	source = mm-multigenerational-lru-v3.diff
 	source = backport-from-5.14-s0ix-enablement-no-d3hot-2021-06-30.patch
 	source = platform-x86-amd-pmc-Use-return-code-on-suspend.patch
