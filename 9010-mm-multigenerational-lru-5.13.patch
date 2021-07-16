@@ -1,3 +1,410 @@
+From 017c941d4045d93c16f588e18b5da16c6ae11cfc Mon Sep 17 00:00:00 2001
+From: Scott B <28817345+foundObjects@users.noreply.github.com>
+Date: Fri, 16 Jul 2021 15:55:17 -0700
+Subject: [PATCH] mm: multigenerational lru @ 5.13
+
+Squashed commit of the following:
+
+commit 4ca70b882565acfb47c3d0cccb6d2bddcb0b1ee0
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:55 2021 -0600
+
+    mm: multigenerational lru: documentation
+
+    Add Documentation/vm/multigen_lru.rst.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 683ca6086573b05d6495f5da144c851cf02aed1e
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:54 2021 -0600
+
+    mm: multigenerational lru: Kconfig
+
+    Add configuration options for the multigenerational lru.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit b8004e3c5094d167baf3543b7ca17bff89a0d711
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:53 2021 -0600
+
+    mm: multigenerational lru: user interface
+
+    Add a sysfs file /sys/kernel/mm/lru_gen/enabled to enable and disable
+    the multigenerational lru at runtime.
+
+    Add a sysfs file /sys/kernel/mm/lru_gen/spread to optionally spread
+    pages out across more than three generations. More generations make
+    the background aging more aggressive.
+
+    Add a debugfs file /sys/kernel/debug/lru_gen to monitor the
+    multigenerational lru and trigger the aging and the eviction. This
+    file has the following output:
+      memcg  memcg_id  memcg_path
+        node  node_id
+          min_gen  birth_time  anon_size  file_size
+          ...
+          max_gen  birth_time  anon_size  file_size
+
+    Given a memcg and a node, "min_gen" is the oldest generation (number)
+    and "max_gen" is the youngest. Birth time is in milliseconds. The
+    sizes of anon and file types are in pages.
+
+    This file takes the following input:
+      + memcg_id node_id gen [swappiness]
+      - memcg_id node_id gen [swappiness] [nr_to_reclaim]
+
+    The first command line accounts referenced pages to generation
+    "max_gen" and creates the next generation "max_gen"+1. In this case,
+    "gen" should be equal to "max_gen". A swap file and a non-zero
+    "swappiness" are required to scan anon type. If swapping is not
+    desired, set vm.swappiness to 0. The second command line evicts
+    generations less than or equal to "gen". In this case, "gen" should be
+    less than "max_gen"-1 as "max_gen" and "max_gen"-1 are active
+    generations and therefore protected from the eviction. Use
+    "nr_to_reclaim" to limit the number of pages to evict. Multiple
+    command lines are supported, so does concatenation with delimiters ","
+    and ";".
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 4b085203031365e38de46bd2360fea133888d34b
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:52 2021 -0600
+
+    mm: multigenerational lru: eviction
+
+    The eviction consumes old generations. Given an lruvec, the eviction
+    scans the pages on the per-zone lists indexed by either of min_seq[2].
+    It first tries to select a type based on the values of min_seq[2].
+    When anon and file types are both available from the same generation,
+    it selects the one that has a lower refault rate.
+
+    During a scan, the eviction sorts pages according to their new
+    generation numbers, if the aging has found them referenced. It also
+    moves pages from the tiers that have higher refault rates than tier 0
+    to the next generation. When it finds all the per-zone lists of a
+    selected type are empty, the eviction increments min_seq[2] indexed by
+    this selected type.
+
+    With the aging and the eviction in place, we can build page reclaim in
+    a straightforward manner:
+      1) In order to reduce the latency, direct reclaim only invokes the
+      aging when both min_seq[2] reaches max_seq-1; otherwise it invokes
+      the eviction.
+      2) In order to avoid the aging in the direct reclaim path, kswapd
+      does the background aging. It invokes the aging when either of
+      min_seq[2] reaches max_seq-1; otherwise it invokes the eviction.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 8add07f0d2fe5660ae354fb9bacaee4489beddd8
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:51 2021 -0600
+
+    mm: multigenerational lru: aging
+
+    The aging produces young generations. Given an lruvec, the aging scans
+    page tables for referenced pages of this lruvec. Upon finding one, the
+    aging updates its generation number to max_seq. After each round of
+    scan, the aging increments max_seq. The aging is due when both of
+    min_seq[2] reaches max_seq-1, assuming both anon and file types are
+    reclaimable.
+
+    The aging uses the following optimizations when scanning page tables:
+      1) It will not scan page tables from processes that have been
+      sleeping since the last scan.
+      2) It will not scan PTE tables under non-leaf PMD entries that do
+      not have the accessed bit set, when
+      CONFIG_HAVE_ARCH_PARENT_PMD_YOUNG=y.
+      3) It will not zigzag between the PGD table and the same PMD or PTE
+      table spanning multiple VMAs. In other words, it finishes all the
+      VMAs within the range of the same PMD or PTE table before it returns
+      to the PGD table. This optimizes workloads that have large numbers
+      of tiny VMAs, especially when CONFIG_PGTABLE_LEVELS=5.
+
+    The aging also takes advantage of the spatial locality: pages mapped
+    around a referenced PTE may also have been referenced. If the rmap
+    finds the PTE mapping a page under reclaim referenced, it will call a
+    new function lru_gen_scan_around() to scan the vicinity of this PTE.
+    And for each additional PTE found referenced, lru_gen_scan_around()
+    will update the generation number of the page mapped by this PTE.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit eaf9af4401f30662499317e5bfde5738180c1663
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:50 2021 -0600
+
+    mm: multigenerational lru: mm_struct list
+
+    In order to scan page tables, we add an infrastructure to maintain
+    either a system-wide mm_struct list or per-memcg mm_struct lists, and
+    track whether an mm_struct is being used or has been used since the
+    last scan.
+
+    Multiple threads can concurrently work on the same mm_struct list, and
+    each of them will be given a different mm_struct belonging to a
+    process that has been scheduled since the last scan.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 040b3f37286579c27d393a08473d5343783cf53d
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:49 2021 -0600
+
+    mm: multigenerational lru: activation
+
+    For pages accessed multiple times via file descriptors, instead of
+    activating them upon the second access, we activate them based on the
+    refault rates of their tiers. Each generation contains at most
+    MAX_NR_TIERS tiers, and they require additional MAX_NR_TIERS-2 bits in
+    page->flags. Pages accessed N times via file descriptors belong to
+    tier order_base_2(N). Tier 0 is the base tier and it contains pages
+    read ahead, accessed once via file descriptors and accessed only via
+    page tables. Pages from the base tier are evicted regardless of the
+    refault rate. Pages from upper tiers that have higher refault rates
+    than the base tier will be moved to the next generation. A feedback
+    loop modeled after the PID controller monitors refault rates across
+    all tiers and decides when to activate pages from which upper tiers
+    in the reclaim path. The advantages of this model are:
+      1) It has a negligible cost in the buffered IO access path because
+      activations are done optionally in the reclaim path.
+      2) It takes mapped pages into account and avoids overprotecting
+      pages accessed multiple times via file descriptors.
+      3) More tiers offer better protection to pages accessed more than
+      twice when workloads doing intensive buffered IO are under memory
+      pressure.
+
+    For pages mapped upon page faults, the accessed bit is set during the
+    initial faults. Ideally we add them to the per-zone lists index by
+    max_seq, i.e., the youngest generation, so that eviction will not
+    consider them before the aging has scanned them. For anon pages not in
+    swap cache, this can be done easily in the page fault path: we rename
+    lru_cache_add_inactive_or_unevictable() to lru_cache_add_page_vma()
+    and add a new parameter, which is set to true for pages mapped upon
+    page faults. For pages in page cache or swap cache, we cannot
+    differentiate the page fault path from the read ahead path at the time
+    we call lru_cache_add(). So we add them to the per-zone lists index by
+    min_seq, i.e., the oldest generation, for now.
+
+    Finally, we need to make sure deactivation works when the
+    multigenerational lru is enabled. We cannot use PageActive() because
+    it is not set on pages from active generations, in order to spare the
+    aging the trouble of clearing it when active generations become
+    inactive. So we deactivate pages unconditionally since deactivation is
+    not a hot code path worth additional optimizations.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit f7ebfbc13235be6f3231eda5dd8518916fbdb2b3
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:48 2021 -0600
+
+    mm: multigenerational lru: groundwork
+
+    For each lruvec, evictable pages are divided into multiple
+    generations. The youngest generation number is stored in
+    lrugen->max_seq for both anon and file types as they are aged on an
+    equal footing. The oldest generation numbers are stored in
+    lrugen->min_seq[2] separately for anon and file types as clean file
+    pages can be evicted regardless of may_swap or may_writepage. These
+    three variables are monotonically increasing. Generation numbers are
+    truncated into order_base_2(MAX_NR_GENS+1) bits in order to fit into
+    page->flags. The sliding window technique is used to prevent truncated
+    generation numbers from overlapping. Each truncated generation number
+    is an index to
+    lrugen->lists[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES]. Evictable
+    pages are added to the per-zone lists indexed by lrugen->max_seq or
+    lrugen->min_seq[2] (modulo MAX_NR_GENS), depending on their types.
+
+    Each generation is then divided into multiple tiers. Tiers represent
+    levels of usage from file descriptors only. Pages accessed N times via
+    file descriptors belong to tier order_base_2(N). Each generation
+    contains at most MAX_NR_TIERS tiers, and they require additional
+    MAX_NR_TIERS-2 bits in page->flags. In contrast to moving across
+    generations which requires the lru lock for the list operations,
+    moving across tiers only involves an atomic operation on page->flags
+    and therefore has a negligible cost. A feedback loop modeled after the
+    PID controller monitors the refault rates across all tiers and decides
+    when to activate pages from which tiers in the reclaim path.
+
+    The framework comprises two conceptually independent components: the
+    aging and the eviction, which can be invoked separately from user
+    space for the purpose of working set estimation and proactive reclaim.
+
+    The aging produces young generations. Given an lruvec, the aging scans
+    page tables for referenced pages of this lruvec. Upon finding one, the
+    aging updates its generation number to max_seq. After each round of
+    scan, the aging increments max_seq. The aging is due when both of
+    min_seq[2] reaches max_seq-1, assuming both anon and file types are
+    reclaimable.
+
+    The eviction consumes old generations. Given an lruvec, the eviction
+    scans the pages on the per-zone lists indexed by either of min_seq[2].
+    It tries to select a type based on the values of min_seq[2] and
+    swappiness. During a scan, the eviction sorts pages according to their
+    new generation numbers, if the aging has found them referenced. When
+    it finds all the per-zone lists of a selected type are empty, the
+    eviction increments min_seq[2] indexed by this selected type.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 0028110f6cb45432a6c7d4e54ef7b4775ffb62a1
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:47 2021 -0600
+
+    mm/workingset.c: refactor pack_shadow() and unpack_shadow()
+
+    This patches moves the bucket order and PageWorkingset() out of
+    pack_shadow() and unpack_shadow(). It has no merits on its own but
+    makes the upcoming changes to mm/workingset.c less diffy.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 40ed5571f4673756b3b49cc5751abf14d9bfe175
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:46 2021 -0600
+
+    mm/vmscan.c: refactor shrink_node()
+
+    Heuristics that determine scan balance between anon and file LRUs are
+    rather independent. Move them into a separate function to improve
+    readability.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 3e9396457548ca7c545ae6246321fd9c4ffb9c28
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:45 2021 -0600
+
+    mm, x86: support the access bit on non-leaf PMD entries
+
+    Some architectures support the accessed bit on non-leaf PMD entries
+    (parents) in addition to leaf PTE entries (children) where pages are
+    mapped, e.g., x86_64 sets the accessed bit on a parent when using it
+    as part of linear-address translation [1]. Page table walkers who are
+    interested in the accessed bit on children can take advantage of this:
+    they do not need to search the children when the accessed bit is not
+    set on a parent, given that they have previously cleared the accessed
+    bit on this parent.
+
+    [1]: Intel 64 and IA-32 Architectures Software Developer's Manual
+         Volume 3 (October 2019), section 4.8
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 0b94e9c9181ac764be483dbf3e762571a2250947
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:44 2021 -0600
+
+    include/linux/cgroup.h: export cgroup_mutex
+
+    cgroup_mutex is needed to synchronize with memcg creations.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit 4fcad39ee6bf9c444d9f595ceca019b6c457e8b6
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:43 2021 -0600
+
+    include/linux/nodemask.h: define next_memory_node() if !CONFIG_NUMA
+
+    Currently next_memory_node only exists when CONFIG_NUMA=y. This patch
+    adds the macro for !CONFIG_NUMA.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+
+commit ead270d32206de69a30b5f2b85dbf20cdbf65890
+Author: Yu Zhao <yuzhao@google.com>
+Date:   Thu May 20 00:53:42 2021 -0600
+
+    include/linux/memcontrol.h: do not warn in page_memcg_rcu() if !CONFIG_MEMCG
+
+    page_memcg_rcu() warns on !rcu_read_lock_held() regardless of
+    CONFIG_MEMCG. The following legit code trips the warning when
+    !CONFIG_MEMCG, since lock_page_memcg() and unlock_page_memcg() are
+    empty for this config.
+
+      memcg = lock_page_memcg(page1)
+        (rcu_read_lock() if CONFIG_MEMCG=y)
+
+      do something to page1
+
+      if (page_memcg_rcu(page2) == memcg)
+        do something to page2 too as it cannot be migrated away from the
+        memcg either.
+
+      unlock_page_memcg(page1)
+        (rcu_read_unlock() if CONFIG_MEMCG=y)
+
+    Locking/unlocking rcu consistently for both configs is rigorous but it
+    also forces unnecessary locking upon users who have no interest in
+    CONFIG_MEMCG.
+
+    This patch removes the assertion for !CONFIG_MEMCG, because
+    page_memcg_rcu() has a few callers and there are no concerns regarding
+    their correctness at the moment.
+
+    Signed-off-by: Yu Zhao <yuzhao@google.com>
+    Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+---
+ Documentation/vm/index.rst        |    1 +
+ Documentation/vm/multigen_lru.rst |  143 ++
+ arch/Kconfig                      |    9 +
+ arch/x86/Kconfig                  |    1 +
+ arch/x86/include/asm/pgtable.h    |    2 +-
+ arch/x86/mm/pgtable.c             |    5 +-
+ fs/exec.c                         |    2 +
+ fs/fuse/dev.c                     |    3 +-
+ include/linux/cgroup.h            |   15 +-
+ include/linux/memcontrol.h        |    7 +-
+ include/linux/mm.h                |    2 +
+ include/linux/mm_inline.h         |  234 +++
+ include/linux/mm_types.h          |  107 ++
+ include/linux/mmzone.h            |  117 ++
+ include/linux/nodemask.h          |    1 +
+ include/linux/page-flags-layout.h |   19 +-
+ include/linux/page-flags.h        |    4 +-
+ include/linux/pgtable.h           |    4 +-
+ include/linux/swap.h              |    4 +-
+ kernel/bounds.c                   |    6 +
+ kernel/events/uprobes.c           |    2 +-
+ kernel/exit.c                     |    1 +
+ kernel/fork.c                     |   10 +
+ kernel/kthread.c                  |    1 +
+ kernel/sched/core.c               |    2 +
+ mm/Kconfig                        |   58 +
+ mm/huge_memory.c                  |    5 +-
+ mm/khugepaged.c                   |    2 +-
+ mm/memcontrol.c                   |   28 +
+ mm/memory.c                       |   10 +-
+ mm/migrate.c                      |    2 +-
+ mm/mm_init.c                      |    6 +-
+ mm/mmzone.c                       |    2 +
+ mm/rmap.c                         |    6 +
+ mm/swap.c                         |   22 +-
+ mm/swapfile.c                     |    6 +-
+ mm/userfaultfd.c                  |    2 +-
+ mm/vmscan.c                       | 2638 ++++++++++++++++++++++++++++-
+ mm/workingset.c                   |  165 +-
+ 39 files changed, 3496 insertions(+), 158 deletions(-)
+ create mode 100644 Documentation/vm/multigen_lru.rst
+
 diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
 index eff5fbd492d0..c353b3f55924 100644
 --- a/Documentation/vm/index.rst
@@ -1056,10 +1463,10 @@ index 65809fac3038..6e6d95b0462c 100644
  	put_task_struct(c);
  }
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 03baafd70b98..7a72a9e17059 100644
+index a070caed5c8e..529558cb7369 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -673,6 +673,7 @@ static void check_mm(struct mm_struct *mm)
+@@ -669,6 +669,7 @@ static void check_mm(struct mm_struct *mm)
  #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
  	VM_BUG_ON_MM(mm->pmd_huge_pte, mm);
  #endif
@@ -1067,7 +1474,7 @@ index 03baafd70b98..7a72a9e17059 100644
  }
  
  #define allocate_mm()	(kmem_cache_alloc(mm_cachep, GFP_KERNEL))
-@@ -1065,6 +1066,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+@@ -1061,6 +1062,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
  		goto fail_nocontext;
  
  	mm->user_ns = get_user_ns(user_ns);
@@ -1075,7 +1482,7 @@ index 03baafd70b98..7a72a9e17059 100644
  	return mm;
  
  fail_nocontext:
-@@ -1107,6 +1109,7 @@ static inline void __mmput(struct mm_struct *mm)
+@@ -1103,6 +1105,7 @@ static inline void __mmput(struct mm_struct *mm)
  	}
  	if (mm->binfmt)
  		module_put(mm->binfmt->module);
@@ -1083,7 +1490,7 @@ index 03baafd70b98..7a72a9e17059 100644
  	mmdrop(mm);
  }
  
-@@ -2531,6 +2534,13 @@ pid_t kernel_clone(struct kernel_clone_args *args)
+@@ -2523,6 +2526,13 @@ pid_t kernel_clone(struct kernel_clone_args *args)
  		get_task_struct(p);
  	}
  
@@ -4497,3 +4904,6 @@ index b7cdeca5a76d..3f3f03d51ea7 100644
  	max_order = fls_long(totalram_pages() - 1);
  	if (max_order > timestamp_bits)
  		bucket_order = max_order - timestamp_bits;
+-- 
+2.32.0
+
