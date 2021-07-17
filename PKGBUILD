@@ -44,6 +44,13 @@ source=(
   "8001-x86-amd_nb-Add-AMD-family-19h-model-50h-PCI-ids.patch"
   "8002-hwmon-k10temp-support-Zen3-APUs.patch"
 
+  # mediatek bt/wifi support
+  "8010-Bluetooth-btusb-Fixed-too-many-in-token-issue-for-Me.patch"
+  "8011-Bluetooth-btusb-Add-support-for-Lite-On-Mediatek-Chi.patch"
+  "8012-mt76-mt7921-continue-to-probe-driver-when-fw-already.patch"
+  "8013-mt76-mt7921-Fix-out-of-order-process-by-invalid-even.patch"
+  "8014-mt76-mt7921-Add-mt7922-support.patch"
+
   # squashed s0ix enablement through 2021-07-14; all current patches
   "9001-v5.13.1-s0ix-patch-2021-07-14.patch"
   #"9001-v5.13.2-s0ix-patch-2021-07-14.patch"
@@ -73,6 +80,11 @@ sha256sums=('SKIP'
             '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
             'ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7'
             'de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e'
+            'd5ad7314aa01bcfd77353ae04059c0a7850764195db93e120dad31d1a949ade4'
+            '67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c'
+            '13f1c3a15fb1418b4aee0594e1f7871151303ca4f7eaab3c6f2ea21af965d85b'
+            '2163cb2e394a013042a40cd3b00dae788603284b20d71e262995366c5534e480'
+            'a01cf700d79b983807e2285be1b30df6e02db6adfd9c9027fe2dfa8ca5a74bc9'
             'd256ae6e76b0fc1d1815bbb4cb9d6a08318d1fc6195fc758c7fc4535e5761142'
             '9f08ed167da12e934e86073e9d61513985b22ccc8c37b4bff52638cc41ae7233')
 
