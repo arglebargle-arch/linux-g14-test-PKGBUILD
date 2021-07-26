@@ -4,7 +4,7 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.13.1.arch1
+pkgver=5.13.5.arch1
 #_tagver=5.13.1.arch1
 pkgrel=1
 pkgdesc='Linux'
@@ -30,9 +30,9 @@ source=(
   "more-uarches-for-kernel-5.8+.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch"
 
   # ROG patches
-  "0001-asus-wmi-Add-panel-overdrive-functionality.patch"
-  "0002-asus-wmi-Add-dgpu-disable-method.patch"
-  "0003-asus-wmi-Add-egpu-enable-method.patch"
+  "0101-asus-wmi-Add-panel-overdrive-functionality.patch"
+  "0102-asus-wmi-Add-dgpu-disable-method.patch"
+  "0103-asus-wmi-Add-egpu-enable-method.patch"
   #"0004-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
   #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
   "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
@@ -45,15 +45,16 @@ source=(
   "8002-hwmon-k10temp-support-Zen3-APUs.patch"
 
   # mediatek bt/wifi support
-  "8010-Bluetooth-btusb-Fixed-too-many-in-token-issue-for-Me.patch"
+  #"8010-Bluetooth-btusb-Fixed-too-many-in-token-issue-for-Me.patch"
   "8011-Bluetooth-btusb-Add-support-for-Lite-On-Mediatek-Chi.patch"
-  "8012-mt76-mt7921-continue-to-probe-driver-when-fw-already.patch"
+  #"8012-mt76-mt7921-continue-to-probe-driver-when-fw-already.patch"
   "8013-mt76-mt7921-Fix-out-of-order-process-by-invalid-even.patch"
   "8014-mt76-mt7921-Add-mt7922-support.patch"
 
-  # squashed s0ix enablement through 2021-07-14; all current patches
-  "9001-v5.13.1-s0ix-patch-2021-07-14.patch"
-  #"9001-v5.13.2-s0ix-patch-2021-07-14.patch"
+  # squashed s0ix enablement through 2021-07-20; all current patches
+  "9001-v5.13.4-s0ix-patch-2021-07-20.patch"
+  # a small amd_pmc SMU debugging patch per Mario Limonciello @AMD
+  "9100-amd-pmc-smu-register-dump-for-diagnostics.patch"
 
   # multigenerational LRU v3
   "9010-mm-multigenerational-lru-5.13.patch"
@@ -73,19 +74,18 @@ sha256sums=('SKIP'
             '1c48dc71e8dabd48e538b2284ab3b9e2a768e7d80c2c74e552dc1d93239370e2'
             '1ac18cad2578df4a70f9346f7c6fccbb62f042a0ee0594817fdef9f2704904ee'
             'fa6cee9527d8e963d3398085d1862edc509a52e4540baec463edb8a9dd95bee0'
-            '09cf9fa947e58aacf25ff5c36854b82d97ad8bda166a7e00d0f3f4df7f60a695'
-            '7a685e2e2889af744618a95ef49593463cd7e12ae323f964476ee9564c208b77'
-            '663b664f4a138ccca6c4edcefde6a045b79a629d3b721bfa7b9cc115f704456e'
+            '1ab75535772c63567384eb2ac74753e4d5db2f3317cb265aedf6151b9f18c6c2'
+            '8cc771f37ee08ad5796e6db64f180c1415a5f6e03eb3045272dade30ca754b53'
+            'f3461e7cc759fd4cef2ec5c4fa15b80fa6d37e16008db223f77ed88a65aa938e'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
             '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
             'ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7'
             'de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e'
-            'd5ad7314aa01bcfd77353ae04059c0a7850764195db93e120dad31d1a949ade4'
             '67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c'
-            '13f1c3a15fb1418b4aee0594e1f7871151303ca4f7eaab3c6f2ea21af965d85b'
             '2163cb2e394a013042a40cd3b00dae788603284b20d71e262995366c5534e480'
             'a01cf700d79b983807e2285be1b30df6e02db6adfd9c9027fe2dfa8ca5a74bc9'
-            'd256ae6e76b0fc1d1815bbb4cb9d6a08318d1fc6195fc758c7fc4535e5761142'
+            '5cdcb264781b902bdd215c5380722be8246c22a645f8da0fe9c488ebb60ae2de'
+            '6e629d4a032165f39202a702ad518a050c9305f911595a43bc34ce0c1d45d36b'
             '9f08ed167da12e934e86073e9d61513985b22ccc8c37b4bff52638cc41ae7233')
 
 # default to x86-64-v3 microarch if not set

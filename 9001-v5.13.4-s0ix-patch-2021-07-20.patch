@@ -1,22 +1,26 @@
-From 4099d332697bdc64ae863bf92a820f66d11ec9d3 Mon Sep 17 00:00:00 2001
+From 08c4b7b329b8c25c9b679d5b14259e3c50908cbb Mon Sep 17 00:00:00 2001
 From: Scott B <28817345+foundObjects@users.noreply.github.com>
-Date: Fri, 16 Jul 2021 15:25:29 -0700
-Subject: [PATCH] v5.13.1-s0ix patch 2021-07-14
+Date: Tue, 20 Jul 2021 20:31:52 -0700
+Subject: [PATCH] v5.13.4-s0ix patch 2021-07-20
 
 Squashed commit of the following:
 
-commit 8e592b36329bce7c3c547d2fc0caf47bc6df4c9b
-Author: Marcin Bachry <hegel666@gmail.com>
-Date:   Tue Mar 16 15:28:51 2021 -0400
+commit 7fd34eedb46e2c1a214c42a754c11225c57af4f8
+Author: Yang Yingliang <yangyingliang@huawei.com>
+Date:   Thu Jul 15 15:43:27 2021 +0800
 
-    PCI: quirks: Quirk PCI d3hot delay for AMD xhci
+    platform/x86: amd-pmc: Fix missing unlock on error in amd_pmc_send_cmd()
 
-    Renoir needs a similar delay.
+    Add the missing unlock before return from function amd_pmc_send_cmd()
+    in the error handling case.
 
-    Signed-off-by: Marcin Bachry <hegel666@gmail.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+    Fixes: 95e1b60f8dc8 ("platform/x86: amd-pmc: Fix command completion code")
+    Reported-by: Hulk Robot <hulkci@huawei.com>
+    Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+    Link: https://lore.kernel.org/r/20210715074327.1966083-1-yangyingliang@huawei.com
+    Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-commit b858371975804bd31215feffaf4eac9d6e5b1977
+commit bfdc42ded5b63984c6d4ad51886de85ea6ce59ea
 Author: Mario Limonciello <mario.limonciello@amd.com>
 Date:   Wed Jul 7 09:16:47 2021 -0500
 
@@ -30,7 +34,7 @@ Date:   Wed Jul 7 09:16:47 2021 -0500
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
     Acked-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 
-commit c01fc5b4966e41e5a3601e5994bbadcfd7c3b8a8
+commit 1ca4eddf59a7c09413e81a5cb04a943520f1bbc7
 Author: Mario Limonciello <mario.limonciello@amd.com>
 Date:   Wed Jun 30 14:46:06 2021 -0500
 
@@ -71,7 +75,7 @@ Date:   Wed Jun 30 14:46:06 2021 -0500
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
     Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-commit 7a71407032a5f499dcbb96adf50334329b5af236
+commit 0a9ea7c917155be195e02d93ded588111072cada
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:18:03 2021 +0530
 
@@ -83,7 +87,7 @@ Date:   Tue Jun 29 14:18:03 2021 +0530
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
     Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-commit b86e2cc606d916f0f77205500d4abc1925623fda
+commit 637a831afaa11029f8b3c3fde93b7144d933987c
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:18:02 2021 +0530
 
@@ -95,7 +99,7 @@ Date:   Tue Jun 29 14:18:02 2021 +0530
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
     Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-commit 4c6dc5644d77b31c8b5b25ca3fede7137ce54072
+commit 79c652f9205f88ff6510798cffbfc31002bc1791
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:18:01 2021 +0530
 
@@ -115,7 +119,7 @@ Date:   Tue Jun 29 14:18:01 2021 +0530
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
     Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-commit 5c516962b687f56a7c2271777e1c644b4173441d
+commit 0399e6b7dacedd4a00bb6aa96f106777b5f50223
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:18:00 2021 +0530
 
@@ -134,7 +138,7 @@ Date:   Tue Jun 29 14:18:00 2021 +0530
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
     Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-commit bc7f4c05175ddbeb4605ce24d8bcb141ad501726
+commit 15a72732fe44ebae5e67fd9633a8154811554c19
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:17:59 2021 +0530
 
@@ -146,7 +150,7 @@ Date:   Tue Jun 29 14:17:59 2021 +0530
 
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 
-commit 017125eb2aab354cda19a40e8950c4d5c7a64629
+commit f35fdca78ed0390d267f1c78d7b652cc3cfc9769
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:17:58 2021 +0530
 
@@ -161,7 +165,7 @@ Date:   Tue Jun 29 14:17:58 2021 +0530
     Fixes: 156ec4731cb2 ("platform/x86: amd-pmc: Add AMD platform support for S2Idle")
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 
-commit c0eb3565ed21392a4b6c3b909a6766ceff293134
+commit 9646e80cc5d7544344d7396cc2532abf2e3d9154
 Author: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Date:   Tue Jun 29 14:17:57 2021 +0530
 
@@ -182,7 +186,18 @@ Date:   Tue Jun 29 14:17:57 2021 +0530
     Signed-off-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
     Acked-by: Raul E Rangel <rrangel@chromium.org>
 
-commit e7a643dec34e388db2381dc6dcfec2333fd62a82
+commit 29e7398bd5cae05705e8568b3970298c34926c64
+Author: Marcin Bachry <hegel666@gmail.com>
+Date:   Tue Mar 16 15:28:51 2021 -0400
+
+    PCI: quirks: Quirk PCI d3hot delay for AMD xhci
+
+    Renoir needs a similar delay.
+
+    Signed-off-by: Marcin Bachry <hegel666@gmail.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+commit 8160647a1773195b72e0716971c91d886a973ed1
 Author: Mario Limonciello <mario.limonciello@amd.com>
 Date:   Thu Jun 17 11:42:12 2021 -0500
 
@@ -198,7 +213,7 @@ Date:   Thu Jun 17 11:42:12 2021 -0500
 
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-commit 8a2ed69832b5ff456bc643ef096431e57dbd518e
+commit c7b74b53ab0f0f0d0892f34ed67219cec5e4893a
 Author: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 Date:   Thu Jun 17 11:42:11 2021 -0500
 
@@ -212,7 +227,7 @@ Date:   Thu Jun 17 11:42:11 2021 -0500
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
     Signed-off-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 
-commit df3908dc58bd552953ddb5ea4a82fc9570bd5de7
+commit 8c31fcd44d65bf9ddd1efef4d2bfa291be1ea8b1
 Author: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 Date:   Thu Jun 17 11:42:10 2021 -0500
 
@@ -223,7 +238,7 @@ Date:   Thu Jun 17 11:42:10 2021 -0500
 
     Signed-off-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 
-commit 5b08730e5f66db836c566dea5fbb86e4878d5a13
+commit e9e9b99b4bd12c5ff33a1a943b641bad55589e0d
 Author: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 Date:   Thu Jun 17 11:42:09 2021 -0500
 
@@ -241,7 +256,7 @@ Date:   Thu Jun 17 11:42:09 2021 -0500
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
     Signed-off-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 
-commit 155f6b24376587f69b8a17a8a8ffc3d498410909
+commit a9b9c19d86ef212df8c0cddfd9b948a3357f623c
 Author: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 Date:   Thu Jun 17 11:42:08 2021 -0500
 
@@ -252,24 +267,7 @@ Date:   Thu Jun 17 11:42:08 2021 -0500
 
     Signed-off-by: Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>
 
-commit a3acfd65aac2286c9caeb1d6c6d071bf3d758724
-Author: Alex Deucher <alexander.deucher@amd.com>
-Date:   Wed May 5 09:20:32 2021 -0400
-
-    ACPI: PM: s2idle: Add missing LPS0 functions for AMD
-
-    These are supposedly not required for AMD platforms,
-    but at least some HP laptops seem to require it to
-    properly turn off the keyboard backlight.
-
-    Based on a patch from Marcin Bachry <hegel666@gmail.com>.
-
-    Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1230
-    Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-    Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-commit 8b4059233e61891ac4a71a1c17f6522a0bbc0eb2
+commit 659ff1c66135bca04b7780c5418a83e572cd1c95
 Author: Mario Limonciello <mario.limonciello@amd.com>
 Date:   Wed Jun 9 13:40:18 2021 -0500
 
@@ -316,7 +314,7 @@ Date:   Wed Jun 9 13:40:18 2021 -0500
     Tested-by: Julian Sikorski <belegdol@gmail.com>
     Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-commit 8acca77bfbbd0e50465268d4d0518a862b4f344c
+commit 28255c4655fad26adce0f490e3af8e756f7f1e1e
 Author: Mario Limonciello <mario.limonciello@amd.com>
 Date:   Wed Jun 9 13:40:17 2021 -0500
 
@@ -337,74 +335,22 @@ Date:   Wed Jun 9 13:40:17 2021 -0500
     Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
     Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
     Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-commit d86d0556f75b29926f3742dfbd3ba233a4d6f2d2
-Author: Mario Limonciello <mario.limonciello@amd.com>
-Date:   Fri May 28 11:02:34 2021 -0500
-
-    nvme-pci: look for StorageD3Enable on companion ACPI device instead
-
-    The documentation around the StorageD3Enable property hints that it
-    should be made on the PCI device.  This is where newer AMD systems set
-    the property and it's required for S0i3 support.
-
-    So rather than look for nodes of the root port only present on Intel
-    systems, switch to the companion ACPI device for all systems.
-    David Box from Intel indicated this should work on Intel as well.
-
-    Link: https://lore.kernel.org/linux-nvme/YK6gmAWqaRmvpJXb@google.com/T/#m900552229fa455867ee29c33b854845fce80ba70
-    Link: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro
-    Fixes: df4f9bc4fb9c ("nvme-pci: add support for ACPI StorageD3Enable property")
-    Suggested-by: Liang Prike <Prike.Liang@amd.com>
-    Acked-by: Raul E Rangel <rrangel@chromium.org>
-    Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-    Reviewed-by: David E. Box <david.e.box@linux.intel.com>
-    Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-commit 95241ba42277d37cdeff5ce63dbade2b0ababe2b
-Author: Mario Limonciello <mario.limonciello@amd.com>
-Date:   Wed May 12 17:15:14 2021 -0500
-
-    ACPI: processor idle: Fix up C-state latency if not ordered
-
-    Generally, the C-state latency is provided by the _CST method or
-    FADT, but some OEM platforms using AMD Picasso, Renoir, Van Gogh,
-    and Cezanne set the C2 latency greater than C3's which causes the
-    C2 state to be skipped.
-
-    That will block the core entering PC6, which prevents S0ix working
-    properly on Linux systems.
-
-    In other operating systems, the latency values are not validated and
-    this does not cause problems by skipping states.
-
-    To avoid this issue on Linux, detect when latencies are not an
-    arithmetic progression and sort them.
-
-    Link: https://gitlab.freedesktop.org/agd5f/linux/-/commit/026d186e4592c1ee9c1cb44295912d0294508725
-    Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1230#note_712174
-    Suggested-by: Prike Liang <Prike.Liang@amd.com>
-    Suggested-by: Alex Deucher <alexander.deucher@amd.com>
-    Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-    [ rjw: Subject and changelog edits ]
-    Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
  drivers/acpi/device_pm.c       |  32 +++++
  drivers/acpi/internal.h        |   9 ++
- drivers/acpi/processor_idle.c  |  40 ++++++
  drivers/acpi/x86/s2idle.c      | 157 ++++++++++++++-------
  drivers/acpi/x86/utils.c       |  25 ++++
- drivers/nvme/host/pci.c        |  50 +------
+ drivers/nvme/host/pci.c        |  28 +---
  drivers/pci/quirks.c           |   3 +
- drivers/platform/x86/amd-pmc.c | 246 ++++++++++++++++++++++++++++++---
+ drivers/platform/x86/amd-pmc.c | 248 +++++++++++++++++++++++++++++----
  include/linux/acpi.h           |   5 +
- 9 files changed, 447 insertions(+), 120 deletions(-)
+ 8 files changed, 406 insertions(+), 101 deletions(-)
 
 diff --git a/drivers/acpi/device_pm.c b/drivers/acpi/device_pm.c
-index d260bc1f3e6e..6dd9bd64903e 100644
+index 9d2d3b9bb8b5..0cfdef2fc3ad 100644
 --- a/drivers/acpi/device_pm.c
 +++ b/drivers/acpi/device_pm.c
-@@ -1340,4 +1340,36 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
+@@ -1338,4 +1338,36 @@ int acpi_dev_pm_attach(struct device *dev, bool power_on)
  	return 1;
  }
  EXPORT_SYMBOL_GPL(acpi_dev_pm_attach);
@@ -461,83 +407,8 @@ index e21611c9a170..7ac01b03ba67 100644
  /*--------------------------------------------------------------------------
  				Device properties
    -------------------------------------------------------------------------- */
-diff --git a/drivers/acpi/processor_idle.c b/drivers/acpi/processor_idle.c
-index 45a019619e4a..095c8aca141e 100644
---- a/drivers/acpi/processor_idle.c
-+++ b/drivers/acpi/processor_idle.c
-@@ -16,6 +16,7 @@
- #include <linux/acpi.h>
- #include <linux/dmi.h>
- #include <linux/sched.h>       /* need_resched() */
-+#include <linux/sort.h>
- #include <linux/tick.h>
- #include <linux/cpuidle.h>
- #include <linux/cpu.h>
-@@ -384,10 +385,37 @@ static void acpi_processor_power_verify_c3(struct acpi_processor *pr,
- 	return;
- }
- 
-+static int acpi_cst_latency_cmp(const void *a, const void *b)
-+{
-+	const struct acpi_processor_cx *x = a, *y = b;
-+
-+	if (!(x->valid && y->valid))
-+		return 0;
-+	if (x->latency > y->latency)
-+		return 1;
-+	if (x->latency < y->latency)
-+		return -1;
-+	return 0;
-+}
-+static void acpi_cst_latency_swap(void *a, void *b, int n)
-+{
-+	struct acpi_processor_cx *x = a, *y = b;
-+	u32 tmp;
-+
-+	if (!(x->valid && y->valid))
-+		return;
-+	tmp = x->latency;
-+	x->latency = y->latency;
-+	y->latency = tmp;
-+}
-+
- static int acpi_processor_power_verify(struct acpi_processor *pr)
- {
- 	unsigned int i;
- 	unsigned int working = 0;
-+	unsigned int last_latency = 0;
-+	unsigned int last_type = 0;
-+	bool buggy_latency = false;
- 
- 	pr->power.timer_broadcast_on_state = INT_MAX;
- 
-@@ -411,12 +439,24 @@ static int acpi_processor_power_verify(struct acpi_processor *pr)
- 		}
- 		if (!cx->valid)
- 			continue;
-+		if (cx->type >= last_type && cx->latency < last_latency)
-+			buggy_latency = true;
-+		last_latency = cx->latency;
-+		last_type = cx->type;
- 
- 		lapic_timer_check_state(i, pr, cx);
- 		tsc_check_state(cx->type);
- 		working++;
- 	}
- 
-+	if (buggy_latency) {
-+		pr_notice("FW issue: working around C-state latencies out of order\n");
-+		sort(&pr->power.states[1], max_cstate,
-+		     sizeof(struct acpi_processor_cx),
-+		     acpi_cst_latency_cmp,
-+		     acpi_cst_latency_swap);
-+	}
-+
- 	lapic_timer_propagate_broadcast(pr);
- 
- 	return (working);
 diff --git a/drivers/acpi/x86/s2idle.c b/drivers/acpi/x86/s2idle.c
-index 2b69536cdccb..1c507804fb10 100644
+index 2d7ddb8a8cb6..1c507804fb10 100644
 --- a/drivers/acpi/x86/s2idle.c
 +++ b/drivers/acpi/x86/s2idle.c
 @@ -32,6 +32,9 @@ static const struct acpi_device_id lps0_device_ids[] = {
@@ -550,7 +421,7 @@ index 2b69536cdccb..1c507804fb10 100644
  #define ACPI_LPS0_DSM_UUID	"c4eb40a0-6cd2-11e2-bcfd-0800200c9a66"
  
  #define ACPI_LPS0_GET_DEVICE_CONSTRAINTS	1
-@@ -39,15 +42,22 @@ static const struct acpi_device_id lps0_device_ids[] = {
+@@ -39,6 +42,8 @@ static const struct acpi_device_id lps0_device_ids[] = {
  #define ACPI_LPS0_SCREEN_ON	4
  #define ACPI_LPS0_ENTRY		5
  #define ACPI_LPS0_EXIT		6
@@ -559,10 +430,7 @@ index 2b69536cdccb..1c507804fb10 100644
  
  /* AMD */
  #define ACPI_LPS0_DSM_UUID_AMD      "e3f32452-febc-43ce-9039-932122d37721"
-+#define ACPI_LPS0_ENTRY_AMD         2
-+#define ACPI_LPS0_EXIT_AMD          3
- #define ACPI_LPS0_SCREEN_OFF_AMD    4
- #define ACPI_LPS0_SCREEN_ON_AMD     5
+@@ -49,7 +54,10 @@ static const struct acpi_device_id lps0_device_ids[] = {
  
  static acpi_handle lps0_device_handle;
  static guid_t lps0_dsm_guid;
@@ -574,7 +442,7 @@ index 2b69536cdccb..1c507804fb10 100644
  
  /* Device constraint entry structure */
  struct lpi_device_info {
-@@ -68,15 +78,7 @@ struct lpi_constraints {
+@@ -70,15 +78,7 @@ struct lpi_constraints {
  	int min_dstate;
  };
  
@@ -591,7 +459,7 @@ index 2b69536cdccb..1c507804fb10 100644
  struct lpi_device_constraint_amd {
  	char *name;
  	int enabled;
-@@ -94,15 +96,15 @@ static void lpi_device_get_constraints_amd(void)
+@@ -96,15 +96,15 @@ static void lpi_device_get_constraints_amd(void)
  	int i, j, k;
  
  	out_obj = acpi_evaluate_dsm_typed(lps0_device_handle, &lps0_dsm_guid,
@@ -611,7 +479,7 @@ index 2b69536cdccb..1c507804fb10 100644
  	for (i = 0; i < out_obj->package.count; i++) {
  		union acpi_object *package = &out_obj->package.elements[i];
  
-@@ -315,14 +317,15 @@ static void lpi_check_constraints(void)
+@@ -317,14 +317,15 @@ static void lpi_check_constraints(void)
  	}
  }
  
@@ -630,7 +498,7 @@ index 2b69536cdccb..1c507804fb10 100644
  	ACPI_FREE(out_obj);
  
  	acpi_handle_debug(lps0_device_handle, "_DSM function %u evaluation %s\n",
-@@ -334,11 +337,33 @@ static bool acpi_s2idle_vendor_amd(void)
+@@ -336,11 +337,33 @@ static bool acpi_s2idle_vendor_amd(void)
  	return boot_cpu_data.x86_vendor == X86_VENDOR_AMD;
  }
  
@@ -666,7 +534,7 @@ index 2b69536cdccb..1c507804fb10 100644
  	if (lps0_device_handle)
  		return 0;
  
-@@ -346,28 +371,36 @@ static int lps0_device_attach(struct acpi_device *adev,
+@@ -348,28 +371,36 @@ static int lps0_device_attach(struct acpi_device *adev,
  		return 0;
  
  	if (acpi_s2idle_vendor_amd()) {
@@ -720,7 +588,7 @@ index 2b69536cdccb..1c507804fb10 100644
  
  	lps0_device_handle = adev->handle;
  
-@@ -384,11 +417,15 @@ static int lps0_device_attach(struct acpi_device *adev,
+@@ -386,11 +417,15 @@ static int lps0_device_attach(struct acpi_device *adev,
  		mem_sleep_current = PM_SUSPEND_TO_IDLE;
  
  	/*
@@ -740,12 +608,13 @@ index 2b69536cdccb..1c507804fb10 100644
  
  	return 0;
  }
-@@ -406,11 +443,23 @@ int acpi_s2idle_prepare_late(void)
+@@ -408,12 +443,23 @@ int acpi_s2idle_prepare_late(void)
  	if (pm_debug_messages_on)
  		lpi_check_constraints();
  
 -	if (acpi_s2idle_vendor_amd()) {
 -		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_OFF_AMD);
+-		acpi_sleep_run_lps0_dsm(ACPI_LPS0_ENTRY_AMD);
 +	if (lps0_dsm_func_mask_microsoft > 0) {
 +		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_OFF,
 +				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
@@ -768,11 +637,12 @@ index 2b69536cdccb..1c507804fb10 100644
  	}
  
  	return 0;
-@@ -421,11 +470,23 @@ void acpi_s2idle_restore_early(void)
+@@ -424,12 +470,23 @@ void acpi_s2idle_restore_early(void)
  	if (!lps0_device_handle || sleep_no_lps0)
  		return;
  
 -	if (acpi_s2idle_vendor_amd()) {
+-		acpi_sleep_run_lps0_dsm(ACPI_LPS0_EXIT_AMD);
 -		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_ON_AMD);
 +	if (lps0_dsm_func_mask_microsoft > 0) {
 +		acpi_sleep_run_lps0_dsm(ACPI_LPS0_EXIT,
@@ -830,20 +700,17 @@ index bdc1ba00aee9..f22f23933063 100644
 +	return x86_match_cpu(storage_d3_cpu_ids);
 +}
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a29b170701fc..8fbc4c87a0d8 100644
+index 42ad75ff1348..5a72bdf5ad03 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2828,54 +2828,6 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+@@ -2828,32 +2828,6 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
  	return 0;
  }
  
 -#ifdef CONFIG_ACPI
 -static bool nvme_acpi_storage_d3(struct pci_dev *dev)
 -{
--	struct acpi_device *adev;
--	struct pci_dev *root;
--	acpi_handle handle;
--	acpi_status status;
+-	struct acpi_device *adev = ACPI_COMPANION(&dev->dev);
 -	u8 val;
 -
 -	/*
@@ -851,28 +718,9 @@ index a29b170701fc..8fbc4c87a0d8 100644
 -	 * must use D3 to support deep platform power savings during
 -	 * suspend-to-idle.
 -	 */
--	root = pcie_find_root_port(dev);
--	if (!root)
--		return false;
 -
--	adev = ACPI_COMPANION(&root->dev);
 -	if (!adev)
 -		return false;
--
--	/*
--	 * The property is defined in the PXSX device for South complex ports
--	 * and in the PEGP device for North complex ports.
--	 */
--	status = acpi_get_handle(adev->handle, "PXSX", &handle);
--	if (ACPI_FAILURE(status)) {
--		status = acpi_get_handle(adev->handle, "PEGP", &handle);
--		if (ACPI_FAILURE(status))
--			return false;
--	}
--
--	if (acpi_bus_get_device(handle, &adev))
--		return false;
--
 -	if (fwnode_property_read_u8(acpi_fwnode_handle(adev), "StorageD3Enable",
 -			&val))
 -		return false;
@@ -888,7 +736,7 @@ index a29b170701fc..8fbc4c87a0d8 100644
  static void nvme_async_probe(void *data, async_cookie_t cookie)
  {
  	struct nvme_dev *dev = data;
-@@ -2925,7 +2877,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -2903,7 +2877,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  
  	quirks |= check_vendor_combination_bug(pdev);
  
@@ -898,10 +746,10 @@ index a29b170701fc..8fbc4c87a0d8 100644
  		 * Some systems use a bios work around to ask for D3 on
  		 * platforms that support kernel managed suspend.
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 22b2bb1109c9..c4f5e2f093a3 100644
+index 6d74386eadc2..446f8f7b0ee4 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -1899,6 +1899,9 @@ static void quirk_ryzen_xhci_d3hot(struct pci_dev *dev)
+@@ -1900,6 +1900,9 @@ static void quirk_ryzen_xhci_d3hot(struct pci_dev *dev)
  }
  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x15e0, quirk_ryzen_xhci_d3hot);
  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x15e1, quirk_ryzen_xhci_d3hot);
@@ -912,7 +760,7 @@ index 22b2bb1109c9..c4f5e2f093a3 100644
  #ifdef CONFIG_X86_IO_APIC
  static int dmi_disable_ioapicreroute(const struct dmi_system_id *d)
 diff --git a/drivers/platform/x86/amd-pmc.c b/drivers/platform/x86/amd-pmc.c
-index b9da58ee9b1e..680f94c7e075 100644
+index b9da58ee9b1e..663a4ca0580d 100644
 --- a/drivers/platform/x86/amd-pmc.c
 +++ b/drivers/platform/x86/amd-pmc.c
 @@ -46,34 +46,79 @@
@@ -1119,7 +967,7 @@ index b9da58ee9b1e..680f94c7e075 100644
  static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
  {
  	u32 value;
-@@ -132,15 +263,15 @@ static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
+@@ -132,19 +263,19 @@ static void amd_pmc_dump_registers(struct amd_pmc_dev *dev)
  	dev_dbg(dev->dev, "AMD_PMC_REGISTER_MESSAGE:%x\n", value);
  }
  
@@ -1138,6 +986,11 @@ index b9da58ee9b1e..680f94c7e075 100644
  				PMC_MSG_DELAY_MIN_US * RESPONSE_REGISTER_LOOP_MAX);
  	if (rc) {
  		dev_err(dev->dev, "failed to talk to SMU\n");
+-		return rc;
++		goto out_unlock;
+ 	}
+ 
+ 	/* Write zero to response register */
 @@ -154,34 +285,91 @@ static int amd_pmc_send_cmd(struct amd_pmc_dev *dev, bool set)
  	amd_pmc_reg_write(dev, AMD_PMC_REGISTER_ARGUMENT, set);
  
