@@ -6,7 +6,7 @@
 pkgbase=linux-g14-test
 pkgver=5.13.8.arch1
 #_tagver=5.13.1.arch1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 #_srctag=v${_tagver%.*}-${_tagver##*.}
@@ -39,6 +39,12 @@ source=(
   "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
   #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
   #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
+
+  # Claymore II keyboard support
+  "HID-ASUS-Quirk-Claymore-II-keyboard.diff"
+
+  # fix Tiger Lake pinctrl so the touchpad works
+  "drivers-pinctrl-intel-fix-tigerlake-mapping.diff"
 
   # k10temp support for Zen3 APUs
   "8001-x86-amd_nb-Add-AMD-family-19h-model-50h-PCI-ids.patch"
@@ -79,6 +85,8 @@ sha256sums=('SKIP'
             'f3461e7cc759fd4cef2ec5c4fa15b80fa6d37e16008db223f77ed88a65aa938e'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
             '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
+            'e2d312ea95d18e91801d131a2b5d03cf2175d3088cac6f84a19410078a5b6b14'
+            '1e2777841f0ed2957cb9e869a150caa014fff3c32e2744fda9c950260997dcdc'
             'ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7'
             'de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e'
             '67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c'
