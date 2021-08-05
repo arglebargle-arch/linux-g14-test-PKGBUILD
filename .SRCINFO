@@ -1,6 +1,6 @@
 pkgbase = linux-g14-test
 	pkgdesc = Linux
-	pkgver = 5.13.7.arch1
+	pkgver = 5.13.8.arch1
 	pkgrel = 1
 	url = https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/
 	arch = x86_64
@@ -16,7 +16,7 @@ pkgbase = linux-g14-test
 	makedepends = git
 	makedepends = gcc>=11.0
 	options = !strip
-	source = archlinux-linux::git+https://github.com/archlinux/linux.git?signed#tag=v5.13.7-arch1
+	source = archlinux-linux::git+https://github.com/archlinux/linux.git?signed#tag=v5.13.8-arch1
 	source = config
 	source = choose-gcc-optimization.sh
 	source = more-uarches-for-kernel-5.8+.patch::https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch
@@ -30,7 +30,7 @@ pkgbase = linux-g14-test
 	source = 8011-Bluetooth-btusb-Add-support-for-Lite-On-Mediatek-Chi.patch
 	source = 8013-mt76-mt7921-Fix-out-of-order-process-by-invalid-even.patch
 	source = 8014-mt76-mt7921-Add-mt7922-support.patch
-	source = 9001-v5.13.4-s0ix-patch-2021-07-20.patch
+	source = 9001-v5.13.8-s0ix-patch-2021-08-05.patch
 	source = 9100-amd-pmc-smu-register-dump-for-diagnostics.patch
 	source = 9010-mm-multigenerational-lru-5.13.patch
 	validpgpkeys = ABAF11C65A2970B130ABE3C479BE3E4300411886
@@ -50,7 +50,7 @@ pkgbase = linux-g14-test
 	sha256sums = 67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c
 	sha256sums = 2163cb2e394a013042a40cd3b00dae788603284b20d71e262995366c5534e480
 	sha256sums = a01cf700d79b983807e2285be1b30df6e02db6adfd9c9027fe2dfa8ca5a74bc9
-	sha256sums = 5cdcb264781b902bdd215c5380722be8246c22a645f8da0fe9c488ebb60ae2de
+	sha256sums = d049328ee725216f904cbf21cbb3c1c34c2b1daadbb1dbc399cfab8db54a756b
 	sha256sums = 6e629d4a032165f39202a702ad518a050c9305f911595a43bc34ce0c1d45d36b
 	sha256sums = 9f08ed167da12e934e86073e9d61513985b22ccc8c37b4bff52638cc41ae7233
 

@@ -4,7 +4,7 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.13.7.arch1
+pkgver=5.13.8.arch1
 #_tagver=5.13.1.arch1
 pkgrel=1
 pkgdesc='Linux'
@@ -51,8 +51,8 @@ source=(
   "8013-mt76-mt7921-Fix-out-of-order-process-by-invalid-even.patch"
   "8014-mt76-mt7921-Add-mt7922-support.patch"
 
-  # squashed s0ix enablement through 2021-07-20; all current patches
-  "9001-v5.13.4-s0ix-patch-2021-07-20.patch"
+  # squashed s0ix enablement through 2021-08-05; all current patches
+  "9001-v5.13.8-s0ix-patch-2021-08-05.patch"
   # a small amd_pmc SMU debugging patch per Mario Limonciello @AMD
   "9100-amd-pmc-smu-register-dump-for-diagnostics.patch"
 
@@ -84,7 +84,7 @@ sha256sums=('SKIP'
             '67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c'
             '2163cb2e394a013042a40cd3b00dae788603284b20d71e262995366c5534e480'
             'a01cf700d79b983807e2285be1b30df6e02db6adfd9c9027fe2dfa8ca5a74bc9'
-            '5cdcb264781b902bdd215c5380722be8246c22a645f8da0fe9c488ebb60ae2de'
+            'd049328ee725216f904cbf21cbb3c1c34c2b1daadbb1dbc399cfab8db54a756b'
             '6e629d4a032165f39202a702ad518a050c9305f911595a43bc34ce0c1d45d36b'
             '9f08ed167da12e934e86073e9d61513985b22ccc8c37b4bff52638cc41ae7233')
 
