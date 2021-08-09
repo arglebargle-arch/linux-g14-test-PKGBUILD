@@ -4,9 +4,9 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.13.8.arch1
+pkgver=5.13.9.arch1
 #_tagver=5.13.1.arch1
-pkgrel=2
+pkgrel=1
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 #_srctag=v${_tagver%.*}-${_tagver##*.}
