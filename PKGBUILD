@@ -4,9 +4,9 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.13.9.arch1
+pkgver=5.13.10.arch1
 #_tagver=5.13.1.arch1
-pkgrel=2
+pkgrel=1
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 #_srctag=v${_tagver%.*}-${_tagver##*.}
@@ -58,18 +58,13 @@ source=(
   "8013-mt76-mt7921-Fix-out-of-order-process-by-invalid-even.patch"
   "8014-mt76-mt7921-Add-mt7922-support.patch"
 
-  # squashed s0ix enablement through 2021-08-05; all current patches
-  "9001-v5.13.8-s0ix-patch-2021-08-05.patch"
-  "9002-ACPI-PM-s2idle-Invert-Microsoft-UUID-entry-and-exit.patch"
+  # squashed s0ix enablement through 2021-08-12
+  "9001-v5.13.10-s0ix-patch-2021-08-12.patch"
   # a small amd_pmc SMU debugging patch per Mario Limonciello @AMD
   "9100-amd-pmc-smu-register-dump-for-diagnostics.patch"
 
   # multigenerational LRU v3
   "9010-mm-multigenerational-lru-5.13.patch"
-
-  # TODO: investigate this, is backporting feasible?
-  # backported from v5.14 -- USB Audio latency improvement
-  # "9001-ALSA-usb-audio-Reduce-latency-at-playback-start-take.patch"
 )
 
 validpgpkeys=(
@@ -95,8 +90,7 @@ sha256sums=('SKIP'
             '67ebf477b2ecbf367ea3fee1568eeb3de59de7185ef5ed66b81ae73108f6693c'
             '2163cb2e394a013042a40cd3b00dae788603284b20d71e262995366c5534e480'
             'a01cf700d79b983807e2285be1b30df6e02db6adfd9c9027fe2dfa8ca5a74bc9'
-            'd049328ee725216f904cbf21cbb3c1c34c2b1daadbb1dbc399cfab8db54a756b'
-            '5b7b8f450282a15d0832b171e82fc5639de1cb7aa495efe6e6c7989ebeb8ca36'
+            '1f073ecde33569c0e08fd384b22ffeb8545b5dd8e62106ae27cfcaa1f2588519'
             '6e629d4a032165f39202a702ad518a050c9305f911595a43bc34ce0c1d45d36b'
             '9f08ed167da12e934e86073e9d61513985b22ccc8c37b4bff52638cc41ae7233')
 
