@@ -4,7 +4,7 @@
 # NOTE: This is *not* the official asus-linux `linux-g14` package, this is my personal testbed
 
 pkgbase=linux-g14-test
-pkgver=5.13.10.arch1
+pkgver=5.13.12.arch1
 #_tagver=5.13.1.arch1
 pkgrel=1
 pkgdesc='Linux'
@@ -36,13 +36,10 @@ source=(
   #"0004-HID-asus-Filter-keyboard-EC-for-old-ROG-keyboard.patch"
   #"0005-HID-asus-filter-G713-G733-key-event-to-prevent-shutd.patch"
   "0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch"
-  "0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
+  #"0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch"
   #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
   #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
   "HID-asus-Prevent-Claymore-sending-suspend-event.patch"
-
-  # fix Tiger Lake pinctrl so the touchpad works
-  "drivers-pinctrl-intel-fix-tigerlake-mapping.diff"
 
   # more accurate battery state polling
   "acpi-battery-Always-read-fresh-battery-state-on-update.patch"
@@ -81,9 +78,7 @@ sha256sums=('SKIP'
             '8cc771f37ee08ad5796e6db64f180c1415a5f6e03eb3045272dade30ca754b53'
             'f3461e7cc759fd4cef2ec5c4fa15b80fa6d37e16008db223f77ed88a65aa938e'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
-            '32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1'
             'ef8c99a47a0becb709c4bb9a471a999895bae285c8872a200e85f5bd3931fc8d'
-            '1e2777841f0ed2957cb9e869a150caa014fff3c32e2744fda9c950260997dcdc'
             'b55f0d3d7aa3942e74fe2ef21e01d2168391233099fdda3ed1954849b4fe67d2'
             'ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7'
             'de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e'

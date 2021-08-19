@@ -1,6 +1,6 @@
 pkgbase = linux-g14-test
 	pkgdesc = Linux
-	pkgver = 5.13.10.arch1
+	pkgver = 5.13.12.arch1
 	pkgrel = 1
 	url = https://lab.retarded.farm/zappel/asus-rog-zephyrus-g14/
 	arch = x86_64
@@ -16,7 +16,7 @@ pkgbase = linux-g14-test
 	makedepends = git
 	makedepends = gcc>=11.0
 	options = !strip
-	source = archlinux-linux::git+https://github.com/archlinux/linux.git?signed#tag=v5.13.10-arch1
+	source = archlinux-linux::git+https://github.com/archlinux/linux.git?signed#tag=v5.13.12-arch1
 	source = config
 	source = choose-gcc-optimization.sh
 	source = more-uarches-for-kernel-5.8+.patch::https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/a8d200f422f4b2abeaa6cfcfa37136b308e6e33e/more-uarches-for-kernel-5.8%2B.patch
@@ -24,9 +24,7 @@ pkgbase = linux-g14-test
 	source = 0102-asus-wmi-Add-dgpu-disable-method.patch
 	source = 0103-asus-wmi-Add-egpu-enable-method.patch
 	source = 0006-HID-asus-Remove-check-for-same-LED-brightness-on-set.patch
-	source = 0007-ALSA-hda-realtek-Fix-speakers-not-working-on-Asus-Fl.patch
 	source = HID-asus-Prevent-Claymore-sending-suspend-event.patch
-	source = drivers-pinctrl-intel-fix-tigerlake-mapping.diff
 	source = acpi-battery-Always-read-fresh-battery-state-on-update.patch
 	source = 8001-x86-amd_nb-Add-AMD-family-19h-model-50h-PCI-ids.patch
 	source = 8002-hwmon-k10temp-support-Zen3-APUs.patch
@@ -47,9 +45,7 @@ pkgbase = linux-g14-test
 	sha256sums = 8cc771f37ee08ad5796e6db64f180c1415a5f6e03eb3045272dade30ca754b53
 	sha256sums = f3461e7cc759fd4cef2ec5c4fa15b80fa6d37e16008db223f77ed88a65aa938e
 	sha256sums = 034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9
-	sha256sums = 32bbcde83406810f41c9ed61206a7596eb43707a912ec9d870fd94f160d247c1
 	sha256sums = ef8c99a47a0becb709c4bb9a471a999895bae285c8872a200e85f5bd3931fc8d
-	sha256sums = 1e2777841f0ed2957cb9e869a150caa014fff3c32e2744fda9c950260997dcdc
 	sha256sums = b55f0d3d7aa3942e74fe2ef21e01d2168391233099fdda3ed1954849b4fe67d2
 	sha256sums = ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7
 	sha256sums = de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e
