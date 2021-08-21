@@ -6,7 +6,7 @@
 pkgbase=linux-g14-test
 pkgver=5.13.12.arch1
 #_tagver=5.13.1.arch1
-pkgrel=1
+pkgrel=2
 pkgdesc='Linux'
 _srctag=v${pkgver%.*}-${pkgver##*.}
 #_srctag=v${_tagver%.*}-${_tagver##*.}
@@ -40,6 +40,9 @@ source=(
   #"0008-ACPI-video-use-native-backlight-for-GA401-GA502-GA50.patch"
   #"0009-Revert-platform-x86-asus-nb-wmi-Drop-duplicate-DMI-q.patch"
   "HID-asus-Prevent-Claymore-sending-suspend-event.patch"
+
+  # don't drop shared caches on C3 state transitions
+  "x86-ACPI-State-Optimize-C3-entry-on-AMD-CPUs.patch"
 
   # more accurate battery state polling
   "acpi-battery-Always-read-fresh-battery-state-on-update.patch"
@@ -79,6 +82,7 @@ sha256sums=('SKIP'
             'f3461e7cc759fd4cef2ec5c4fa15b80fa6d37e16008db223f77ed88a65aa938e'
             '034743a640c26deca0a8276fa98634e7eac1328d50798a3454c4662cff97ccc9'
             'ef8c99a47a0becb709c4bb9a471a999895bae285c8872a200e85f5bd3931fc8d'
+            '923230ed8367e28adfdeed75d3cdba9eec6b781818c37f6f3d3eb64101d2e716'
             'b55f0d3d7aa3942e74fe2ef21e01d2168391233099fdda3ed1954849b4fe67d2'
             'ed28a8051514f8c228717a5cdd13191b1c58181e0228d972fbe2af5ee1d013d7'
             'de8c9747637768c4356c06aa65c3f157c526aa420f21fdd5edd0ed06f720a62e'
